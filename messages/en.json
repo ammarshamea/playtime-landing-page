@@ -1,0 +1,353 @@
+{
+  "meta": {
+    "title": "Playtime Manager — Gaming Venue Management System",
+    "description": "Manage your gaming stations, sessions, and revenue easily — works fully offline"
+  },
+  "nav": {
+    "features": "Features",
+    "preview": "App Preview",
+    "howItWorks": "How It Works",
+    "reports": "Reports",
+    "pricing": "Pricing",
+    "comparison": "Compare",
+    "faq": "FAQ",
+    "getStarted": "Get Started",
+    "toggleLang": "عربي"
+  },
+  "hero": {
+    "badge": "Gaming Venue Management",
+    "title": "Playtime Manager",
+    "subtitle": "Professional management for gaming lounges",
+    "description": "Control your stations, track sessions, and monitor revenue — fully offline, no internet needed",
+    "ctaPrimary": "Request Activation",
+    "ctaSecondary": "Explore Features",
+    "scrollHint": "Scroll down"
+  },
+  "stats": {
+    "offline": "100% Offline",
+    "offlineSub": "No internet required",
+    "sessions": "Unlimited Sessions",
+    "sessionsSub": "Open & fixed duration",
+    "languages": "2 Languages",
+    "languagesSub": "Arabic + English",
+    "themes": "4 Themes",
+    "themesSub": "Light & dark modes"
+  },
+  "problem": {
+    "sectionLabel": "The Problem",
+    "title": "Your venue deserves better than pen & paper",
+    "subtitle": "Manual station tracking means lost revenue, calculation errors, and wasted time",
+    "items": [
+      {
+        "title": "Inaccurate manual timers",
+        "desc": "A clock and pen can't auto-calculate time — errors mean lost money"
+      },
+      {
+        "title": "No revenue visibility",
+        "desc": "Without clear reports, you can't know today's or this week's earnings"
+      },
+      {
+        "title": "Chaotic station management",
+        "desc": "Tracking each station separately is exhausting and error-prone"
+      }
+    ],
+    "solution": "Solution: Playtime Manager"
+  },
+  "features": {
+    "sectionLabel": "Features",
+    "title": "Everything you need in one app",
+    "subtitle": "Built specifically for gaming and entertainment venues",
+    "items": [
+      {
+        "title": "Station Management",
+        "desc": "PlayStation, PC, Billiards, Ping Pong and more — add custom types and pricing per station"
+      },
+      {
+        "title": "Open & Fixed Sessions",
+        "desc": "Open session: auto-calculates price. Fixed session: notifies your phone when time is up"
+      },
+      {
+        "title": "Revenue Reports",
+        "desc": "Your venue's profit summary by day, week, month, and year — find your most profitable station"
+      },
+      {
+        "title": "Works Fully Offline",
+        "desc": "Local SQLite database on your device — no cloud, no internet, your data is always with you"
+      },
+      {
+        "title": "Arabic + English",
+        "desc": "Full interface in Arabic and English with complete RTL direction support"
+      },
+      {
+        "title": "Security & Protection",
+        "desc": "Owner PIN, clock tamper detection, and signed device-specific licensing"
+      }
+    ]
+  },
+  "preview": {
+    "sectionLabel": "App Preview",
+    "title": "Dashboard at a glance",
+    "subtitle": "See your stations, active sessions, and today's revenue — everything in one place",
+    "stations": [
+      { "name": "PlayStation 1", "type": "PS", "status": "available" },
+      { "name": "PlayStation 2", "type": "PS", "status": "active" },
+      { "name": "PC Gaming 1", "type": "PC", "status": "active" }
+    ],
+    "available": "Available",
+    "active": "Active",
+    "elapsed": "Elapsed",
+    "price": "Price",
+    "todayRevenue": "Today's Revenue",
+    "activeSessions": "Active Sessions",
+    "currency": "SYP"
+  },
+  "howItWorks": {
+    "sectionLabel": "How It Works",
+    "title": "Get started in three steps",
+    "steps": [
+      {
+        "num": "01",
+        "title": "Get your activation token",
+        "desc": "Contact your service provider to get an activation token tied to your device"
+      },
+      {
+        "num": "02",
+        "title": "Activate the app",
+        "desc": "Enter the token in the activation screen — the process takes seconds"
+      },
+      {
+        "num": "03",
+        "title": "Start managing",
+        "desc": "Add your stations, set pricing, and start tracking sessions immediately"
+      }
+    ]
+  },
+  "reports": {
+    "sectionLabel": "Reports",
+    "title": "Your numbers always at hand",
+    "subtitle": "Detailed reports for every time period help you make smarter decisions",
+    "periodDay": "Day",
+    "periodWeek": "Week",
+    "periodMonth": "Month",
+    "periodYear": "Year",
+    "revenue": "Revenue",
+    "sessions": "Sessions",
+    "topStation": "Top Station",
+    "chartLabel": "Weekly Revenue"
+  },
+  "security": {
+    "sectionLabel": "Security",
+    "title": "Your data is safe and protected",
+    "items": [
+      {
+        "title": "Owner PIN",
+        "desc": "Protect sensitive settings and critical actions with a secret PIN"
+      },
+      {
+        "title": "Clock Tamper Protection",
+        "desc": "The app detects any unauthorized device clock changes and locks write actions"
+      },
+      {
+        "title": "Signed Licensing",
+        "desc": "Each device needs an encrypted license — your data belongs to you alone"
+      },
+      {
+        "title": "Backup & Restore",
+        "desc": "Create a backup of your data and restore it at any time"
+      }
+    ]
+  },
+  "platforms": {
+    "sectionLabel": "Platforms",
+    "title": "Available on all your devices",
+    "subtitle": "A Flutter app that runs smoothly on desktop and mobile",
+    "items": [
+      { "name": "Windows", "desc": "For desktop computers" },
+      { "name": "Android", "desc": "For smartphones" },
+      { "name": "macOS", "desc": "For Mac devices" },
+      { "name": "Linux", "desc": "Linux systems" }
+    ]
+  },
+  "faq": {
+    "sectionLabel": "FAQ",
+    "title": "Frequently asked questions",
+    "items": [
+      {
+        "q": "Does the app need internet?",
+        "a": "No, the app works completely offline. The database is local on your device and works anytime."
+      },
+      {
+        "q": "How do I get activation?",
+        "a": "Contact your service provider — they will give you an activation token tied to your device. Enter it once and you're done."
+      },
+      {
+        "q": "How many stations can I add?",
+        "a": "The number of stations depends on your license type. Contact your service provider to increase the limit."
+      },
+      {
+        "q": "Is Arabic fully supported?",
+        "a": "Yes, Arabic is the default language with full RTL direction support. You can switch to English at any time."
+      },
+      {
+        "q": "What happens after the license expires?",
+        "a": "The app switches to read-only mode — you can view data but cannot add new sessions until renewal."
+      }
+    ]
+  },
+  "comparison": {
+    "sectionLabel": "Comparison",
+    "title": "Why Playtime beats traditional methods",
+    "subtitle": "See for yourself — the difference is clear in daily venue management",
+    "columns": {
+      "feature": "Feature",
+      "pen": "Pen & Paper",
+      "excel": "Excel",
+      "playtime": "Playtime"
+    },
+    "partial": "Partial",
+    "rows": [
+      { "feature": "Automatic time tracking", "pen": false, "excel": false, "playtime": true },
+      { "feature": "Works offline", "pen": true, "excel": "partial", "playtime": true },
+      { "feature": "Session end alerts", "pen": false, "excel": false, "playtime": true },
+      { "feature": "Ready revenue reports", "pen": false, "excel": "partial", "playtime": true },
+      { "feature": "Multi-station management", "pen": false, "excel": "partial", "playtime": true },
+      { "feature": "Session history", "pen": "partial", "excel": true, "playtime": true },
+      { "feature": "Automatic price calculation", "pen": false, "excel": "partial", "playtime": true },
+      { "feature": "Arabic + English UI", "pen": false, "excel": false, "playtime": true }
+    ]
+  },
+  "pricing": {
+    "sectionLabel": "Subscription Plans",
+    "title": "Subscription Plans",
+    "subtitle": "Choose the plan that fits your venue — full license per device",
+    "mostSavings": "Best Value",
+    "choosePlan": "Choose Plan",
+    "plans": [
+      {
+        "id": "monthly",
+        "title": "Monthly",
+        "price": "3",
+        "currency": "$",
+        "duration": "For 30 days"
+      },
+      {
+        "id": "semiannual",
+        "title": "6 Months",
+        "price": "12",
+        "currency": "$",
+        "duration": "For 6 months"
+      },
+      {
+        "id": "annual",
+        "title": "Annual",
+        "price": "25",
+        "currency": "$",
+        "duration": "For 1 year"
+      }
+    ],
+    "promos": [
+      {
+        "title": "Free trial week",
+        "desc": "Try the app before subscribing"
+      },
+      {
+        "title": "Free month on subscription",
+        "desc": "Special offer for new subscribers"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to upgrade your venue?",
+    "subtitle": "Contact us to get your licensed copy or ask about plans",
+    "button": "Request Activation Now",
+    "whatsappButton": "Chat on WhatsApp",
+    "whatsappMessage": "Hello, I would like to inquire about Playtime Manager and subscription plans.",
+    "phoneLabel": "WhatsApp",
+    "note": "Per-device license · Works offline · Full Arabic support"
+  },
+  "whatsapp": {
+    "ariaLabel": "Contact us on WhatsApp",
+    "tooltip": "Message us on WhatsApp"
+  },
+  "useCases": {
+    "sectionLabel": "Who is it for?",
+    "title": "Built for every gaming venue type",
+    "subtitle": "Whether your lounge is small or large — Playtime adapts to your needs",
+    "items": [
+      { "title": "PlayStation Lounges", "desc": "Manage PS stations with different rates per unit" },
+      { "title": "PC Gaming", "desc": "Track PC sessions and hourly billing accurately" },
+      { "title": "Billiards & Ping Pong", "desc": "Multiple station types with custom pricing" },
+      { "title": "Multi-activity Centers", "desc": "PS + PC + more — all in one dashboard" }
+    ]
+  },
+  "beforeAfter": {
+    "sectionLabel": "Before & After",
+    "title": "The difference is clear from day one",
+    "subtitle": "Move from manual chaos to professional management",
+    "beforeTitle": "Without Playtime",
+    "afterTitle": "With Playtime",
+    "before": [
+      "Manual timers and billing errors",
+      "No visibility into today's revenue",
+      "Paper logs get lost or damaged",
+      "No history of past sessions",
+      "Time wasted on tracking"
+    ],
+    "after": [
+      "Automatic precise second-by-second timer",
+      "Today's revenue at a glance",
+      "Everything saved on your device",
+      "Full log of every session",
+      "Focus on customers, not paperwork"
+    ]
+  },
+  "roiCalculator": {
+    "sectionLabel": "Savings Calculator",
+    "title": "How much do you save with Playtime?",
+    "subtitle": "Estimate monthly savings vs manual management",
+    "sessionsLabel": "Sessions per day",
+    "priceLabel": "Average session price (SYP)",
+    "errorLabel": "Manual billing error rate",
+    "hoursSaved": "Hours saved / month",
+    "moneySaved": "Error savings / month",
+    "annualPlan": "Annual plan",
+    "roiNote": "Expected monthly savings exceed subscription cost",
+    "perMonth": "SYP / month"
+  },
+  "support": {
+    "sectionLabel": "Support & Contact",
+    "title": "We're here to help",
+    "subtitle": "Reach us on WhatsApp during support hours — questions, activation, or technical help",
+    "hoursTitle": "Support Hours",
+    "timezoneNote": "Damascus time (GMT+3)",
+    "hours": [
+      { "label": "Sat — Thu", "value": "9:00 AM – 9:00 PM" },
+      { "label": "Friday", "value": "2:00 PM – 9:00 PM" }
+    ],
+    "responseTime": "Typical reply within 1 hour during business hours",
+    "whatsappTitle": "WhatsApp — fastest way",
+    "whatsappDesc": "Message us directly about plans or activation",
+    "whatsappButton": "Open WhatsApp Chat",
+    "whatsappMessage": "Hello, I would like to inquire about Playtime Manager and subscription plans.",
+    "phoneLabel": "WhatsApp number",
+    "stepsTitle": "What happens next?",
+    "steps": [
+      "We answer your questions and suggest the right plan",
+      "We send your activation code after subscription",
+      "We help with setup if you need it"
+    ]
+  },
+  "footer": {
+    "tagline": "Gaming Venue Management System",
+    "links": {
+      "features": "Features",
+      "preview": "Preview",
+      "howItWorks": "How It Works",
+      "pricing": "Pricing",
+      "comparison": "Compare",
+      "faq": "FAQ",
+      "support": "Support"
+    },
+    "copyright": "Playtime Manager. All rights reserved."
+  }
+}

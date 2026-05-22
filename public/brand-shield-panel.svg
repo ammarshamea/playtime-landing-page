@@ -1,0 +1,30 @@
+<svg width="680" height="520" viewBox="0 0 680 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shield" x1="203" y1="96" x2="485" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D70BC8"/>
+      <stop offset="0.46" stop-color="#5D15A0"/>
+      <stop offset="1" stop-color="#0B4182"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(340 254) rotate(90) scale(226 284)">
+      <stop stop-color="#D70BC8" stop-opacity="0.3"/>
+      <stop offset="0.55" stop-color="#24166D" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#0B4182" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="138" y="56" width="404" height="436" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+  </defs>
+  <rect width="680" height="520" rx="42" fill="#07111F"/>
+  <rect width="680" height="520" rx="42" fill="url(#halo)"/>
+  <path d="M340 90L492 146V254C492 346 430 421 340 454C250 421 188 346 188 254V146L340 90Z" fill="#D70BC8" fill-opacity="0.18" filter="url(#shadow)"/>
+  <path d="M340 78L500 137V252C500 352 433 432 340 466C247 432 180 352 180 252V137L340 78Z" fill="#0B1426"/>
+  <path d="M340 78L500 137V252C500 352 433 432 340 466C247 432 180 352 180 252V137L340 78Z" stroke="url(#shield)" stroke-width="6"/>
+  <path d="M340 128L450 169V252C450 324 403 382 340 407C277 382 230 324 230 252V169L340 128Z" fill="url(#shield)" fill-opacity="0.16"/>
+  <path d="M292 260L326 294L392 216" stroke="#D70BC8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="186" cy="118" r="10" fill="#0E4183"/>
+  <circle cx="502" cy="390" r="12" fill="#D70BC8"/>
+  <circle cx="138" cy="350" r="7" fill="#5D15A0"/>
+  <circle cx="544" cy="144" r="8" fill="#24166D"/>
+  <path d="M184 118C250 64 423 58 544 144" stroke="#5D15A0" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="9 12"/>
+  <path d="M138 350C236 452 382 472 502 390" stroke="#D70BC8" stroke-width="2" stroke-opacity="0.45" stroke-dasharray="9 12"/>
+</svg>

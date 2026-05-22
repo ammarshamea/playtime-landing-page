@@ -1,0 +1,39 @@
+<svg width="760" height="520" viewBox="0 0 760 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="panel" x1="116" y1="72" x2="644" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E4183"/>
+      <stop offset="0.48" stop-color="#24166D"/>
+      <stop offset="1" stop-color="#D70BC8"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="244" y1="372" x2="516" y2="146" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B4182"/>
+      <stop offset="0.55" stop-color="#5D15A0"/>
+      <stop offset="1" stop-color="#D70BC8"/>
+    </linearGradient>
+    <filter id="glow" x="66" y="34" width="628" height="452" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="24" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.843137 0 0 0 0 0.043137 0 0 0 0 0.784314 0 0 0 0.22 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect width="760" height="520" rx="42" fill="#07111F"/>
+  <rect x="78" y="56" width="604" height="408" rx="38" fill="#0B1426"/>
+  <rect x="79.5" y="57.5" width="601" height="405" rx="36.5" stroke="url(#panel)" stroke-width="3" stroke-opacity="0.8"/>
+  <g filter="url(#glow)">
+    <rect x="116" y="94" width="210" height="28" rx="14" fill="#D70BC8" fill-opacity="0.3"/>
+    <rect x="116" y="144" width="152" height="62" rx="22" fill="#0E4183" fill-opacity="0.38"/>
+    <rect x="288" y="144" width="152" height="62" rx="22" fill="#24166D" fill-opacity="0.48"/>
+    <rect x="460" y="144" width="152" height="62" rx="22" fill="#5D15A0" fill-opacity="0.42"/>
+    <rect x="136" y="340" width="42" height="58" rx="12" fill="url(#bar)" fill-opacity="0.7"/>
+    <rect x="198" y="284" width="42" height="114" rx="12" fill="url(#bar)" fill-opacity="0.82"/>
+    <rect x="260" y="314" width="42" height="84" rx="12" fill="url(#bar)" fill-opacity="0.72"/>
+    <rect x="322" y="230" width="42" height="168" rx="12" fill="url(#bar)"/>
+    <rect x="384" y="258" width="42" height="140" rx="12" fill="url(#bar)" fill-opacity="0.88"/>
+    <rect x="446" y="198" width="42" height="200" rx="12" fill="url(#bar)"/>
+    <rect x="508" y="274" width="42" height="124" rx="12" fill="url(#bar)" fill-opacity="0.74"/>
+    <rect x="570" y="224" width="42" height="174" rx="12" fill="url(#bar)" fill-opacity="0.9"/>
+  </g>
+  <path d="M134 272C202 254 256 284 322 236C392 184 444 236 504 198C554 166 594 176 628 150" stroke="#D70BC8" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="322" cy="236" r="9" fill="#D70BC8"/>
+  <circle cx="504" cy="198" r="9" fill="#D70BC8"/>
+</svg>
