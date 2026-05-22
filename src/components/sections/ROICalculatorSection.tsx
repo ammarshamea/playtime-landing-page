@@ -95,22 +95,35 @@ function SliderField({
   suffix: string;
   onChange: (v: number) => void;
 }) {
+  const fill = ((value - min) / (max - min)) * 100;
+
   return (
     <div>
-      <div className="flex justify-between mb-2">
-        <label className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>{label}</label>
-        <span className="text-sm font-bold" style={{ color: "var(--brand-pink)" }}>{value}{suffix}</span>
+      <div className="flex justify-between mb-3">
+        <label className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+          {label}
+        </label>
+        <span className="text-sm font-bold tabular-nums" style={{ color: "var(--brand-pink)" }}>
+          {value}
+          {suffix}
+        </span>
       </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 rounded-full appearance-none cursor-pointer"
-        style={{ accentColor: "var(--primary-light)" }}
-      />
+      <div dir="ltr">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="range-slider"
+          style={{ "--fill": `${fill}%` } as React.CSSProperties}
+          aria-label={label}
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={value}
+        />
+      </div>
     </div>
   );
 }
