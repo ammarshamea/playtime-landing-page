@@ -7,7 +7,7 @@ import { ArrowDown, Gamepad2, Zap, MessageCircle } from "lucide-react";
 import dynamic from "next/dynamic";
 import { staggerContainer, wordReveal, fadeUp, blurReveal, EASE_OUT_EXPO } from "@/lib/animations";
 import BrandLogo from "@/components/ui/BrandLogo";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { openContactChat } from "@/lib/open-contact-chat";
 
 const ParticleCanvas = dynamic(() => import("@/components/canvas/ParticleCanvas"), { ssr: false });
 
@@ -74,7 +74,7 @@ function AnimatedTitle({ text }: { text: string }) {
   return (
     <motion.h1
       variants={staggerContainer}
-      className="text-5xl sm:text-6xl md:text-7xl font-black leading-[1.08] tracking-tight"
+      className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.08] tracking-tight"
       style={{ perspective: "800px" }}
     >
       {words.map((word, i) => (
@@ -106,7 +106,7 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[88vh] sm:min-h-screen flex items-center justify-center overflow-hidden pt-16"
       style={{ background: "var(--bg)" }}
     >
       {/* ── Parallax background ── */}
@@ -118,29 +118,32 @@ export default function HeroSection() {
         transition={{ duration: 1.4, ease: EASE_OUT_EXPO }}
       >
         <img
-          src="/playtime-hero-dashboard.png"
+          src="/hero.png"
           alt=""
           aria-hidden="true"
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-center opacity-[0.42]"
+          loading="eager"
         />
       </motion.div>
 
-      {/* ── Overlays ── */}
+      {/* ── Overlays: soften background, keep text readable ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "linear-gradient(to bottom, rgba(17,14,28,0.52) 0%, rgba(17,14,28,0.7) 50%, rgba(17,14,28,0.96) 100%)",
+          background:
+            "linear-gradient(to bottom, rgba(17,14,28,0.35) 0%, rgba(17,14,28,0.5) 50%, rgba(17,14,28,0.88) 100%)",
         }}
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 90% 70% at 50% 45%, rgba(53,42,95,0.22) 0%, rgba(92,78,138,0.1) 45%, transparent 75%)",
+          background:
+            "radial-gradient(ellipse 85% 65% at 50% 42%, rgba(17,14,28,0.55) 0%, rgba(17,14,28,0.2) 50%, transparent 78%)",
         }}
       />
 
       {/* ── Particles ── */}
-      <div className="absolute inset-0 opacity-45">
+      <div className="absolute inset-0 opacity-15">
         <ParticleCanvas />
       </div>
 
@@ -149,14 +152,16 @@ export default function HeroSection() {
 
       {/* ── Bottom fade ── */}
       <div
-        className="absolute bottom-0 inset-x-0 h-48 pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, transparent, var(--bg))" }}
+        className="absolute bottom-0 inset-x-0 h-40 pointer-events-none"
+        style={{
+          background: "linear-gradient(to bottom, transparent 0%, rgba(17,14,28,0.5) 55%, var(--bg) 100%)",
+        }}
       />
 
       {/* ── Content ── */}
       <motion.div
         style={{ y: contentY }}
-        className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center"
+        className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center [text-shadow:0_2px_24px_rgba(17,14,28,0.85)]"
       >
         <motion.div
           variants={staggerContainer}
@@ -165,7 +170,7 @@ export default function HeroSection() {
           transition={{ staggerChildren: 0.12, delayChildren: 0.1 }}
           className="flex flex-col items-center gap-7"
         >
-          {/* Logo — bounce entrance + continuous float */}
+          {/* Logo — hidden on small screens to keep headline + CTA above fold */}
           <motion.div
             variants={{
               hidden: { opacity: 0, scale: 0.4, rotate: -15 },
@@ -174,10 +179,10 @@ export default function HeroSection() {
                 transition: { type: "spring", stiffness: 320, damping: 18 },
               },
             }}
-            className="animate-float"
+            className="hidden md:block animate-float"
             style={{ filter: "drop-shadow(0 0 48px rgba(139,92,246,0.55))" }}
           >
-            <BrandLogo className="h-28 w-28 sm:h-36 sm:w-36 object-contain" />
+            <BrandLogo className="h-20 w-20 lg:h-28 lg:w-28 object-contain" />
           </motion.div>
 
           {/* Badge */}
@@ -204,13 +209,17 @@ export default function HeroSection() {
             {t("subtitle")}
           </motion.p>
 
-          {/* Description */}
+          {/* Trust line */}
           <motion.p
             variants={fadeUp}
-            className="text-base sm:text-lg max-w-xl leading-relaxed"
-            style={{ color: "var(--text-muted)" }}
+            className="text-sm sm:text-base max-w-xl leading-relaxed font-medium"
+            style={{ color: "var(--text-secondary)" }}
           >
-            {t("description")}
+            <span
+              className="inline-block w-2 h-2 rounded-full me-2 align-middle animate-glow-green"
+              style={{ background: "#10b981" }}
+            />
+            {t("trustLine")}
           </motion.p>
 
           {/* CTA buttons */}
@@ -218,31 +227,24 @@ export default function HeroSection() {
             variants={fadeUp}
             className="flex flex-wrap justify-center gap-3 mt-2"
           >
-            <MagneticBtn href={whatsappUrl("مرحباً، أريد الاستفسار عن تطبيق مدير بلاي تايم.")} whatsapp>
+            <motion.button
+              type="button"
+              onClick={() => openContactChat({ prefillMessage: t("whatsappMessage") })}
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.04 }}
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-semibold text-sm text-white cursor-pointer"
+              style={{
+                background: "var(--brand-gradient)",
+                boxShadow: "0 8px 40px var(--primary-glow)",
+              }}
+            >
               <MessageCircle size={17} />
               {t("ctaPrimary")}
-            </MagneticBtn>
-            <MagneticBtn href="#features" primary>
+            </motion.button>
+            <MagneticBtn href="#how-it-works">
               <Zap size={16} />
               {t("ctaSecondary")}
             </MagneticBtn>
-          </motion.div>
-
-          {/* Trust badges */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-wrap justify-center gap-5 text-xs"
-            style={{ color: "var(--text-muted)" }}
-          >
-            {(["يعمل Offline", "بدون سيرفر", "عربي + إنجليزي"] as const).map((badge) => (
-              <span key={badge} className="flex items-center gap-1.5">
-                <span
-                  className="w-1.5 h-1.5 rounded-full inline-block animate-glow-green"
-                  style={{ background: "#10b981" }}
-                />
-                {badge}
-              </span>
-            ))}
           </motion.div>
         </motion.div>
       </motion.div>

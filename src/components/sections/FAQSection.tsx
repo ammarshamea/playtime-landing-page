@@ -6,8 +6,16 @@ import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
-function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
-  const [open, setOpen] = useState(false);
+function FAQItem({
+  q,
+  a,
+  defaultOpen,
+}: {
+  q: string;
+  a: string;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen ?? false);
 
   return (
     <motion.div
@@ -25,11 +33,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         aria-expanded={open}
       >
         <span className="font-semibold text-sm">{q}</span>
-        <motion.div
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.25 }}
-          className="flex-shrink-0"
-        >
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }} className="flex-shrink-0">
           <ChevronDown size={16} style={{ color: "var(--primary-light)" }} />
         </motion.div>
       </button>
@@ -43,10 +47,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{ overflow: "hidden" }}
           >
-            <div
-              className="px-5 pb-5 text-sm leading-relaxed"
-              style={{ color: "var(--text-muted)" }}
-            >
+            <div className="px-5 pb-5 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
               {a}
             </div>
           </motion.div>
@@ -90,7 +91,7 @@ export default function FAQSection() {
           className="flex flex-col gap-3"
         >
           {items.map((item, i) => (
-            <FAQItem key={i} q={item.q} a={item.a} index={i} />
+            <FAQItem key={i} q={item.q} a={item.a} defaultOpen={i < 2} />
           ))}
         </motion.div>
       </div>

@@ -3,10 +3,10 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Monitor, Timer, BarChart3, WifiOff, Languages, ShieldCheck } from "lucide-react";
+import { Monitor, Timer, Coffee, BarChart3, WifiOff, Languages } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
-const ICONS = [Monitor, Timer, BarChart3, WifiOff, Languages, ShieldCheck];
+const ICONS = [Monitor, Timer, Coffee, BarChart3, WifiOff, Languages];
 
 const CARD_CONFIG = [
   { bg: "rgba(53,42,95,0.18)",   border: "rgba(107,90,158,0.35)",  glow: "rgba(107,90,158,0.2)",  color: "#9b8bc4" },

@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Timer, TrendingDown, LayoutDashboard, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Timer, Coffee, TrendingDown, Eye, ArrowRight, CheckCircle2 } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
-const ICONS = [Timer, TrendingDown, LayoutDashboard];
+const ICONS = [Timer, Coffee, TrendingDown, Eye];
 
 export default function ProblemSection() {
   const t = useTranslations("problem");
@@ -45,7 +45,7 @@ export default function ProblemSection() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
-          className="grid sm:grid-cols-3 gap-5 mb-12"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12"
         >
           {items.map((item, i) => {
             const Icon = ICONS[i];

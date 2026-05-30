@@ -1,26 +1,38 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
-import { Calendar, CalendarRange, Crown, Gift, Sparkles, CreditCard } from "lucide-react";
-import { fadeUp, scaleIn, popIn, staggerContainer, viewportConfig, EASE_OUT_EXPO } from "@/lib/animations";
+import { useLocale, useTranslations } from "next-intl";
+import { Calendar, CalendarRange, Crown, Gift, Sparkles, CreditCard, Check, Loader2 } from "lucide-react";
+import { fadeUp, scaleIn, popIn, staggerContainer, viewportConfig } from "@/lib/animations";
+import { fetchUsdExchangeRate } from "@/lib/exchange-rate-api";
+import { computeSypPrice, formatExchangeFetchedAt, formatSyp } from "@/lib/format-currency";
+import { openContactChat } from "@/lib/open-contact-chat";
+import { getPlanPriceUsd } from "@/lib/pricing-plans";
 
-type Plan = { id: string; title: string; price: string; currency: string; duration: string };
+type Plan = {
+  id: string;
+  title: string;
+  duration: string;
+  description: string;
+  cta: string;
+  features: string[];
+};
 
 const PLAN_STYLES = {
   monthly: {
     icon: Calendar,
     accent: "#5c8fd6",
-    glow: "rgba(92,143,214,0.35)",
-    border: "rgba(92,143,214,0.45)",
-    bg: "linear-gradient(160deg, rgba(92,143,214,0.1) 0%, var(--bg-card) 100%)",
+    glow: "rgba(92,143,214,0.2)",
+    border: "rgba(92,143,214,0.35)",
+    bg: "linear-gradient(160deg, rgba(92,143,214,0.08) 0%, var(--bg-card) 100%)",
   },
   semiannual: {
     icon: CalendarRange,
     accent: "#9b8bc4",
-    glow: "rgba(155,139,196,0.35)",
-    border: "rgba(155,139,196,0.45)",
-    bg: "linear-gradient(160deg, rgba(107,90,158,0.16) 0%, var(--bg-card) 100%)",
+    glow: "rgba(155,139,196,0.28)",
+    border: "rgba(155,139,196,0.4)",
+    bg: "linear-gradient(160deg, rgba(107,90,158,0.14) 0%, var(--bg-card) 100%)",
   },
   annual: {
     icon: Crown,
@@ -31,14 +43,111 @@ const PLAN_STYLES = {
   },
 } as const;
 
+type CurrencyMode = "USD" | "SYP";
+
+function CurrencyToggle({
+  mode,
+  loading,
+  onSelectUsd,
+  onSelectSyp,
+  labels,
+}: {
+  mode: CurrencyMode;
+  loading: boolean;
+  onSelectUsd: () => void;
+  onSelectSyp: () => void;
+  labels: { usd: string; syp: string };
+}) {
+  return (
+    <div
+      className="inline-flex items-center rounded-full p-1 gap-0.5"
+      style={{
+        background: "rgba(255,255,255,0.06)",
+        border: "1px solid rgba(255,255,255,0.1)",
+      }}
+      role="group"
+      aria-label={labels.usd}
+    >
+      <button
+        type="button"
+        disabled={loading}
+        onClick={onSelectUsd}
+        className="rounded-full px-4 py-2 text-sm font-medium transition-all min-w-[72px]"
+        style={{
+          background: mode === "USD" ? "rgba(255,255,255,0.12)" : "transparent",
+          color: mode === "USD" ? "#fff" : "rgba(255,255,255,0.55)",
+        }}
+      >
+        USD
+      </button>
+      <button
+        type="button"
+        disabled={loading}
+        onClick={onSelectSyp}
+        className="inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all min-w-[88px]"
+        style={{
+          background: mode === "SYP" ? "rgba(167, 139, 250, 0.25)" : "transparent",
+          color: mode === "SYP" ? "#fff" : "rgba(255,255,255,0.55)",
+        }}
+      >
+        {loading ? <Loader2 size={14} className="animate-spin" /> : null}
+        {labels.syp}
+      </button>
+    </div>
+  );
+}
+
 export default function PricingSection() {
   const t = useTranslations("pricing");
+  const locale = useLocale();
   const plans = t.raw("plans") as Plan[];
   const promos = t.raw("promos") as { title: string; desc: string }[];
+  const sypLocale = locale === "ar" ? "ar-SY" : "en-US";
+
+  const [currencyMode, setCurrencyMode] = useState<CurrencyMode>("USD");
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [exchangeFetchedAt, setExchangeFetchedAt] = useState<string | null>(null);
+  const [isLoadingRate, setIsLoadingRate] = useState(false);
+  const [exchangeError, setExchangeError] = useState<string | null>(null);
+
+  const loadRateAndShowSyp = useCallback(async () => {
+    try {
+      setIsLoadingRate(true);
+      setExchangeError(null);
+      const data = await fetchUsdExchangeRate();
+      setExchangeRate(data.rate);
+      setExchangeFetchedAt(data.fetched_at);
+      setCurrencyMode("SYP");
+    } catch (err) {
+      setExchangeError(err instanceof Error ? err.message : t("currency.error"));
+      setCurrencyMode("USD");
+    } finally {
+      setIsLoadingRate(false);
+    }
+  }, [t]);
+
+  const handleSelectUsd = () => {
+    setExchangeError(null);
+    setCurrencyMode("USD");
+  };
+
+  const handleSelectSyp = () => {
+    if (currencyMode === "SYP") return;
+    if (exchangeRate !== null) {
+      setCurrencyMode("SYP");
+      return;
+    }
+    void loadRateAndShowSyp();
+  };
+
+  const handlePlanCta = (planTitle: string) => {
+    openContactChat({
+      prefillMessage: t("planContactPrefill", { plan: planTitle }),
+    });
+  };
 
   return (
     <section id="pricing" className="relative py-28 overflow-hidden" style={{ background: "var(--bg)" }}>
-      {/* Ambient */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -52,7 +161,7 @@ export default function PricingSection() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
-          className="flex flex-col items-center text-center gap-4 mb-14"
+          className="flex flex-col items-center text-center gap-4 mb-8"
         >
           <motion.span variants={fadeUp} className="section-label">
             <CreditCard size={13} />
@@ -72,6 +181,31 @@ export default function PricingSection() {
           >
             {t("subtitle")}
           </motion.p>
+
+          <motion.div variants={fadeUp} className="flex flex-col items-center gap-2 mt-2">
+            <CurrencyToggle
+              mode={currencyMode}
+              loading={isLoadingRate}
+              onSelectUsd={handleSelectUsd}
+              onSelectSyp={handleSelectSyp}
+              labels={{ usd: t("currency.usdShort"), syp: t("currency.sypShort") }}
+            />
+            {exchangeError && (
+              <p className="text-xs max-w-sm" style={{ color: "#fca5a5" }}>
+                {exchangeError}{" "}
+                <button type="button" className="underline" onClick={() => void loadRateAndShowSyp()}>
+                  {t("currency.retry")}
+                </button>
+              </p>
+            )}
+            {currencyMode === "SYP" && exchangeFetchedAt && !exchangeError && (
+              <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>
+                {t("currency.lastUpdate", {
+                  time: formatExchangeFetchedAt(exchangeFetchedAt, locale),
+                })}
+              </p>
+            )}
+          </motion.div>
         </motion.div>
 
         <motion.div
@@ -85,115 +219,155 @@ export default function PricingSection() {
             const style = PLAN_STYLES[plan.id as keyof typeof PLAN_STYLES];
             const Icon = style.icon;
             const featured = plan.id === "annual";
+            const priceUsd = getPlanPriceUsd(plan.id);
+            const showSyp = currencyMode === "SYP" && exchangeRate !== null;
+            const priceSyp = showSyp ? computeSypPrice(priceUsd, exchangeRate) : null;
 
             return (
               <motion.div
                 key={plan.id}
                 variants={featured ? popIn : scaleIn}
-                animate={featured ? { y: [0, -8, 0] } : undefined}
-                transition={featured ? { y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" } } : undefined}
+                animate={featured ? { y: [0, -6, 0] } : undefined}
+                transition={featured ? { y: { repeat: Infinity, duration: 4, ease: "easeInOut" } } : undefined}
                 whileHover={{
-                  y: featured ? -14 : -6,
-                  boxShadow: `0 32px 80px ${style.glow}`,
-                  transition: { duration: 0.28 },
+                  y: featured ? -10 : -4,
+                  boxShadow: `0 24px 56px ${style.glow}`,
+                  transition: { duration: 0.25 },
                 }}
-                className={`relative flex flex-col rounded-[28px] p-6 sm:p-7 ${featured ? "md:-mt-3 md:mb-3 md:scale-[1.05]" : ""}`}
+                className={`relative flex flex-col rounded-[28px] p-6 sm:p-7 ${featured ? "md:-mt-2 md:scale-[1.03]" : ""}`}
                 style={{
                   background: style.bg,
                   border: `1px solid ${style.border}`,
-                  boxShadow: featured
-                    ? `0 24px 64px ${style.glow}, 0 0 0 1px ${style.border}`
-                    : `0 12px 40px ${style.glow}`,
+                  boxShadow: featured ? `0 20px 48px ${style.glow}` : `0 8px 24px ${style.glow}`,
                 }}
               >
                 {featured && (
-                  <motion.span
-                    initial={{ opacity: 0, y: -8, scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ delay: 0.4, type: "spring", stiffness: 300 }}
-                    className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1 text-xs font-bold"
+                  <span
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-0.5 text-[11px] font-bold"
                     style={{
                       background: "linear-gradient(135deg, #e879d9, #9b8bc4)",
                       color: "#fff",
-                      boxShadow: "0 4px 20px rgba(232,121,217,0.45)",
                     }}
                   >
                     {t("mostSavings")}
-                  </motion.span>
+                  </span>
                 )}
 
-                {/* Featured gradient border sweep */}
-                {featured && (
-                  <div
-                    className="absolute inset-0 rounded-[28px] pointer-events-none gradient-border-live"
-                    style={{ opacity: 0.5 }}
-                  />
-                )}
-
-                <motion.div
-                  className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl"
-                  style={{
-                    background: `${style.accent}18`,
-                    border: `1px solid ${style.accent}40`,
-                    boxShadow: `0 0 30px ${style.glow}`,
-                  }}
-                  whileHover={{ rotate: 12, scale: 1.12 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 14 }}
+                <div
+                  className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
+                  style={{ background: `${style.accent}15`, border: `1px solid ${style.accent}30` }}
                 >
-                  <Icon size={28} color={style.accent} strokeWidth={1.75} />
-                </motion.div>
+                  <Icon size={22} color={style.accent} strokeWidth={1.75} />
+                </div>
 
-                <h3 className="text-center text-lg font-bold mb-4" style={{ color: "var(--text-primary)" }}>
+                <h3 className="text-center text-lg font-bold mb-3" style={{ color: "var(--text-primary)" }}>
                   {plan.title}
                 </h3>
 
-                <div className="text-center mb-6">
-                  <motion.span
-                    className="text-5xl sm:text-6xl font-black tracking-tight"
-                    style={{ color: "var(--text-primary)" }}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={viewportConfig}
-                    transition={{ type: "spring", stiffness: 280, damping: 18, delay: 0.2 }}
-                  >
-                    {plan.price}
-                  </motion.span>
-                  <span className="text-2xl font-bold ms-1 align-top" style={{ color: style.accent }}>
-                    {plan.currency}
-                  </span>
+                <div className="text-center mb-3 min-h-[4.5rem] flex flex-col items-center justify-center">
+                  {showSyp && priceSyp !== null ? (
+                    <>
+                      <div className="flex items-baseline justify-center gap-1 flex-wrap">
+                        <span
+                          className="text-4xl sm:text-5xl font-black tracking-tight tabular-nums"
+                          style={{ color: "var(--text-primary)" }}
+                        >
+                          {formatSyp(priceSyp, sypLocale)}
+                        </span>
+                        <span className="text-lg font-semibold" style={{ color: style.accent }}>
+                          ل.س
+                        </span>
+                      </div>
+                      <p className="text-[11px] mt-1.5" style={{ color: "var(--text-muted)" }}>
+                        {t("currency.approx")}
+                      </p>
+                    </>
+                  ) : (
+                    <div className="flex items-baseline justify-center">
+                      <span
+                        className="text-5xl sm:text-6xl font-black tracking-tight"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {priceUsd}
+                      </span>
+                      <span className="text-2xl font-bold ms-1" style={{ color: style.accent }}>
+                        $
+                      </span>
+                    </div>
+                  )}
                 </div>
+
+                <p className="text-xs text-center mb-4 leading-relaxed px-1" style={{ color: "var(--text-muted)" }}>
+                  {plan.description}
+                </p>
+
+                <ul className="flex flex-col gap-2 mb-5 flex-1">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2 text-xs" style={{ color: "var(--text-secondary)" }}>
+                      <Check size={14} className="shrink-0 mt-0.5" style={{ color: style.accent }} />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
                 <div className="mt-auto flex flex-col gap-3">
                   <span
-                    className="block text-center rounded-full py-2.5 text-sm font-semibold"
+                    className="block text-center rounded-full py-2 text-xs font-medium"
                     style={{
-                      background: `${style.accent}20`,
-                      border: `1px solid ${style.accent}35`,
+                      background: `${style.accent}15`,
+                      border: `1px solid ${style.accent}25`,
                       color: style.accent,
                     }}
                   >
                     {plan.duration}
                   </span>
 
-                  <motion.a
-                    href="#cta"
-                    className="block text-center rounded-2xl py-3 text-sm font-semibold text-white"
+                  <motion.button
+                    type="button"
+                    onClick={() => handlePlanCta(plan.title)}
+                    className="block w-full text-center rounded-xl py-3 text-sm font-semibold text-white"
                     style={{
                       background: featured
                         ? `linear-gradient(135deg, ${style.accent}, var(--brand-violet))`
-                        : "var(--brand-gradient)",
+                        : "rgba(139, 92, 246, 0.5)",
                     }}
-                    whileHover={{ scale: 1.03, opacity: 0.92 }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    {t("choosePlan")}
-                  </motion.a>
+                    {plan.cta}
+                  </motion.button>
                 </div>
               </motion.div>
             );
           })}
         </motion.div>
+
+        {currencyMode === "SYP" && (
+          <p className="mt-5 text-center text-[11px] max-w-lg mx-auto" style={{ color: "var(--text-muted)" }}>
+            {t("currency.disclaimer")}
+          </p>
+        )}
+
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+          className="mt-8 text-center text-sm"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {t("paymentNote")}
+        </motion.p>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+          className="mt-1 text-center text-xs"
+          style={{ color: "var(--text-muted)" }}
+        >
+          {t("trustNote")}
+        </motion.p>
 
         <motion.div
           variants={staggerContainer}
@@ -209,25 +383,23 @@ export default function PricingSection() {
               <motion.div
                 key={promo.title}
                 variants={fadeUp}
-                whileHover={{ y: -3, boxShadow: `0 16px 40px ${accent}18` }}
-                className="flex items-center gap-4 rounded-2xl p-4 sm:p-5"
-                style={{
-                  background: "var(--bg-card)",
-                  border: `1px solid ${accent}35`,
-                  boxShadow: `0 8px 32px ${accent}10`,
-                }}
+                whileHover={{ y: -2 }}
+                className="flex items-center gap-4 rounded-2xl p-4 border"
+                style={{ background: "var(--bg-card)", borderColor: `${accent}30` }}
               >
-                <motion.div
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
-                  style={{ background: `${accent}15`, border: `1px solid ${accent}30` }}
-                  whileHover={{ rotate: 15, scale: 1.1 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 15 }}
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                  style={{ background: `${accent}12` }}
                 >
-                  <PromoIcon size={22} color={accent} />
-                </motion.div>
-                <div>
-                  <p className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>{promo.title}</p>
-                  <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>{promo.desc}</p>
+                  <PromoIcon size={20} color={accent} />
+                </div>
+                <div className="text-start">
+                  <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                    {promo.title}
+                  </p>
+                  <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+                    {promo.desc}
+                  </p>
                 </div>
               </motion.div>
             );

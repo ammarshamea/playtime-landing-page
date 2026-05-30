@@ -1,19 +1,20 @@
 import { useTranslations } from "next-intl";
 import LanguageToggle from "./LanguageToggle";
 import BrandLogo from "@/components/ui/BrandLogo";
+import { WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/whatsapp";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const tCta = useTranslations("cta");
 
   const links = [
     { key: "features", href: "#features" },
-    { key: "preview", href: "#preview" },
-    { key: "howItWorks", href: "#how-it-works" },
     { key: "pricing", href: "#pricing" },
-    { key: "comparison", href: "#comparison" },
     { key: "faq", href: "#faq" },
     { key: "support", href: "#support" },
   ] as const;
+
+  const waHref = whatsappUrl(tCta("whatsappMessage"));
 
   return (
     <footer
@@ -22,8 +23,7 @@ export default function Footer() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-start">
             <div className="flex items-center gap-2.5">
               <BrandLogo
                 className="h-9 w-9 object-contain"
@@ -33,12 +33,27 @@ export default function Footer() {
                 Playtime Manager
               </span>
             </div>
-            <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+            <p className="text-xs max-w-sm" style={{ color: "var(--text-muted)" }}>
               {t("tagline")}
             </p>
+            <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
+              {t("syriaBadge")}
+            </p>
+            <p className="text-[10px] max-w-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              {t("privacyShort")}
+            </p>
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold hover:underline"
+              style={{ color: "#25D366" }}
+              dir="ltr"
+            >
+              {WHATSAPP_DISPLAY}
+            </a>
           </div>
 
-          {/* Links */}
           <nav className="flex flex-wrap justify-center gap-4">
             {links.map((link) => (
               <a
@@ -52,7 +67,7 @@ export default function Footer() {
             ))}
           </nav>
 
-          <LanguageToggle />
+          <LanguageToggle compact />
         </div>
 
         <div

@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Gamepad2, Monitor, CircleDot, Building2, Users } from "lucide-react";
+import { Gamepad2, Monitor, CircleDot, Coffee } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
-const ICONS = [Gamepad2, Monitor, CircleDot, Building2];
+const ICONS = [Gamepad2, Monitor, CircleDot, Coffee];
 
 export default function UseCasesSection() {
   const t = useTranslations("useCases");
@@ -22,7 +22,7 @@ export default function UseCasesSection() {
           className="flex flex-col items-center text-center gap-4 mb-14"
         >
           <motion.span variants={fadeUp} className="section-label">
-            <Users size={13} />
+            <Gamepad2 size={13} />
             {t("sectionLabel")}
           </motion.span>
           <motion.h2 variants={fadeUp} className="text-3xl sm:text-4xl font-bold" style={{ color: "var(--text-primary)" }}>

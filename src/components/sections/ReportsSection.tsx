@@ -2,18 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { TrendingUp, BarChart3 } from "lucide-react";
+import { BarChart3, TrendingUp } from "lucide-react";
 import { fadeUp, staggerContainer, scaleIn, viewportConfig } from "@/lib/animations";
 
 export default function ReportsSection() {
   const t = useTranslations("reports");
-
-  const periods = [
-    t("periodDay"),
-    t("periodWeek"),
-    t("periodMonth"),
-    t("periodYear"),
-  ];
+  const metrics = t.raw("metrics") as { label: string; value: string }[];
 
   return (
     <section id="reports" className="relative py-28 overflow-hidden" style={{ background: "var(--bg)" }}>
@@ -53,96 +47,45 @@ export default function ReportsSection() {
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-5 lg:gap-6">
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportConfig}
-            className="section-visual lg:col-span-7 min-h-[280px] sm:min-h-[340px]"
-          >
-            <img
-              src="/playtime-reports-analytics.png"
-              alt=""
-              aria-hidden="true"
-              className="opacity-95"
-            />
-            <div
-              className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-              style={{
-                background: "linear-gradient(to top, var(--bg-card), transparent)",
-              }}
-            />
-          </motion.div>
-
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportConfig}
-            className="stat-card lg:col-span-5 p-6 sm:p-7 flex flex-col justify-between gap-6"
-          >
-            <div className="flex flex-col gap-4">
-              <div>
-                <p className="text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                  {t("revenue")}
-                </p>
-                <div className="flex items-center gap-2">
-                  <TrendingUp size={16} style={{ color: "var(--green)" }} />
-                  <span className="text-xs font-semibold" style={{ color: "var(--green)" }}>
-                    +12% {t("periodWeek")}
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-1.5 flex-wrap">
-                {periods.map((p, i) => (
-                  <span
-                    key={p}
-                    className="text-[11px] px-2.5 py-1 rounded-full font-medium"
-                    style={{
-                      background: i === 1 ? "var(--primary)" : "var(--bg-elevated)",
-                      color: i === 1 ? "#fff" : "var(--text-muted)",
-                      border: `1px solid ${i === 1 ? "transparent" : "var(--border)"}`,
-                    }}
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
+        <motion.div
+          variants={scaleIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+          className="rounded-[28px] border p-6 sm:p-8"
+          style={{
+            background: "var(--bg-card)",
+            borderColor: "var(--border)",
+            boxShadow: "0 20px 60px rgba(53,42,95,0.15)",
+          }}
+        >
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {metrics.map((metric) => (
               <div
-                className="text-4xl sm:text-5xl font-black tracking-tight"
-                style={{ color: "var(--text-primary)" }}
+                key={metric.label}
+                className="rounded-2xl p-4"
+                style={{ background: "var(--bg-elevated)", border: "1px solid var(--border)" }}
               >
-                87,500
-                <span className="text-lg font-semibold ms-2" style={{ color: "var(--text-muted)" }}>
-                  ل.س
-                </span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-5 border-t" style={{ borderColor: "var(--border)" }}>
-              <div>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>
-                  {t("sessions")}
+                <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>
+                  {metric.label}
                 </p>
                 <p className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                  143
+                  {metric.value}
                 </p>
               </div>
-              <div>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>
-                  {t("topStation")}
-                </p>
-                <p className="text-lg font-bold truncate" style={{ color: "var(--brand-pink)" }}>
-                  PlayStation 2
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            ))}
+          </div>
+
+          <div
+            className="flex items-center gap-3 rounded-2xl p-4 border border-dashed"
+            style={{ borderColor: "var(--border-strong)", background: "var(--bg-elevated)" }}
+          >
+            <TrendingUp size={22} style={{ color: "var(--green)" }} />
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+              {t("placeholderNote")}
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -2,12 +2,15 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { MessageCircle } from "lucide-react";
 import { fadeUp, staggerContainer, popIn, viewportConfig, EASE_OUT_EXPO } from "@/lib/animations";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 const STEP_COLORS = ["#9b8bc4", "#e879d9", "#10b981"] as const;
 
 export default function HowItWorksSection() {
   const t = useTranslations("howItWorks");
+  const tCta = useTranslations("cta");
   const steps = t.raw("steps") as { num: string; title: string; desc: string }[];
 
   return (
@@ -38,6 +41,13 @@ export default function HowItWorksSection() {
           >
             {t("title")}
           </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="text-base max-w-xl leading-relaxed"
+            style={{ color: "var(--text-muted)" }}
+          >
+            {t("subtitle")}
+          </motion.p>
         </motion.div>
 
         <div className="relative">
@@ -141,6 +151,22 @@ export default function HowItWorksSection() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+
+          <motion.div variants={fadeUp} className="flex justify-center mt-12">
+            <a
+              href={whatsappUrl(tCta("whatsappMessage"))}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold text-white transition-opacity hover:opacity-90"
+              style={{
+                background: "#25D366",
+                boxShadow: "0 8px 32px rgba(37,211,102,0.35)",
+              }}
+            >
+              <MessageCircle size={20} />
+              {t("whatsappCta")}
+            </a>
           </motion.div>
         </div>
       </div>

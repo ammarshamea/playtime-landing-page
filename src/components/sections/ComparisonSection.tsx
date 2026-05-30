@@ -61,6 +61,35 @@ function CellIcon({ value, highlight }: { value: CellValue; highlight?: boolean 
   );
 }
 
+function MobileComparisonCard({
+  row,
+  columns,
+}: {
+  row: ComparisonRow;
+  columns: { key: "pen" | "excel" | "playtime"; label: string; highlight?: boolean }[];
+}) {
+  return (
+    <div
+      className="rounded-2xl p-4"
+      style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+    >
+      <p className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
+        {row.feature}
+      </p>
+      <div className="grid grid-cols-3 gap-2">
+        {columns.map((col) => (
+          <div key={col.key} className="flex flex-col items-center gap-1.5 text-center">
+            <span className="text-[10px] font-medium" style={{ color: col.highlight ? "var(--brand-pink)" : "var(--text-muted)" }}>
+              {col.label}
+            </span>
+            <CellIcon value={row[col.key]} highlight={col.highlight} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ComparisonSection() {
   const t = useTranslations("comparison");
   const rows = t.raw("rows") as ComparisonRow[];
@@ -109,25 +138,38 @@ export default function ComparisonSection() {
           </motion.p>
         </motion.div>
 
+        {/* Mobile: stacked cards */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportConfig}
+          className="md:hidden flex flex-col gap-3"
+        >
+          {rows.map((row) => (
+            <motion.div key={row.feature} variants={fadeUp}>
+              <MobileComparisonCard row={row} columns={columns} />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Desktop: table */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
-          className="overflow-x-auto rounded-[28px] border"
+          className="hidden md:block overflow-x-auto rounded-[28px] border"
           style={{
             borderColor: "var(--border)",
             background: "var(--bg)",
             boxShadow: "0 20px 60px rgba(53,42,95,0.15)",
           }}
         >
-          <table className="w-full min-w-[560px] border-collapse">
+          <table className="w-full border-collapse">
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                <th
-                  className="p-4 sm:p-5 text-start text-sm font-semibold"
-                  style={{ color: "var(--text-secondary)" }}
-                >
+                <th className="p-4 sm:p-5 text-start text-sm font-semibold" style={{ color: "var(--text-secondary)" }}>
                   {t("columns.feature")}
                 </th>
                 {columns.map((col) => (
@@ -149,14 +191,10 @@ export default function ComparisonSection() {
                 <tr
                   key={row.feature}
                   style={{
-                    borderBottom:
-                      i < rows.length - 1 ? "1px solid var(--border)" : undefined,
+                    borderBottom: i < rows.length - 1 ? "1px solid var(--border)" : undefined,
                   }}
                 >
-                  <td
-                    className="p-4 sm:p-5 text-sm font-medium"
-                    style={{ color: "var(--text-primary)" }}
-                  >
+                  <td className="p-4 sm:p-5 text-sm font-medium" style={{ color: "var(--text-primary)" }}>
                     {row.feature}
                   </td>
                   {columns.map((col) => (

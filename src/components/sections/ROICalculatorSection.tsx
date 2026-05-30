@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Calculator, TrendingUp } from "lucide-react";
+import { Calculator } from "lucide-react";
 import { fadeUp, staggerContainer, scaleIn, viewportConfig } from "@/lib/animations";
 
 export default function ROICalculatorSection() {
@@ -11,17 +11,16 @@ export default function ROICalculatorSection() {
 
   const [sessions, setSessions] = useState(20);
   const [avgPrice, setAvgPrice] = useState(500);
+  const [orders, setOrders] = useState(15);
+  const [orderValue, setOrderValue] = useState(150);
   const [errorRate, setErrorRate] = useState(8);
 
-  const { hoursSaved, moneySaved } = useMemo(() => {
-    const minutesPerSession = 12;
-    const hours = Math.round((sessions * minutesPerSession * 30) / 60);
-    const errors = Math.round(sessions * 30 * (errorRate / 100) * avgPrice * 0.5);
-    return {
-      hoursSaved: hours,
-      moneySaved: errors,
-    };
-  }, [sessions, avgPrice, errorRate]);
+  const { dailyWaste, monthlyWaste } = useMemo(() => {
+    const sessionLoss = sessions * (errorRate / 100) * avgPrice * 0.5;
+    const orderLoss = orders * (errorRate / 100) * orderValue;
+    const daily = Math.round(sessionLoss + orderLoss);
+    return { dailyWaste: daily, monthlyWaste: daily * 30 };
+  }, [sessions, avgPrice, orders, orderValue, errorRate]);
 
   return (
     <section id="roi" className="py-28" style={{ background: "var(--bg-card)" }}>
@@ -51,27 +50,24 @@ export default function ROICalculatorSection() {
           whileInView="visible"
           viewport={viewportConfig}
           className="card p-6 sm:p-8 space-y-8"
+          dir="ltr"
         >
           <div className="space-y-6">
             <SliderField label={t("sessionsLabel")} value={sessions} min={5} max={80} onChange={setSessions} suffix="" />
             <SliderField label={t("priceLabel")} value={avgPrice} min={200} max={2000} step={50} onChange={setAvgPrice} suffix=" ل.س" />
+            <SliderField label={t("ordersLabel")} value={orders} min={0} max={60} onChange={setOrders} suffix="" />
+            <SliderField label={t("orderValueLabel")} value={orderValue} min={50} max={500} step={25} onChange={setOrderValue} suffix=" ل.س" />
             <SliderField label={t("errorLabel")} value={errorRate} min={2} max={20} onChange={setErrorRate} suffix="%" />
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: "var(--border)" }}>
-            <ResultCard label={t("hoursSaved")} value={String(hoursSaved)} unit=" ساعة" accent="#5c8fd6" />
-            <ResultCard label={t("moneySaved")} value={String(moneySaved)} unit={` ${t("perMonth")}`} accent="#10b981" />
+            <ResultCard label={t("dailyWaste")} value={String(dailyWaste)} unit={t("perDay")} accent="#f59e0b" />
+            <ResultCard label={t("monthlyWaste")} value={String(monthlyWaste)} unit={t("perMonth")} accent="#ef4444" />
           </div>
 
-          <div
-            className="flex items-center gap-3 rounded-2xl p-4"
-            style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)" }}
-          >
-            <TrendingUp size={22} color="#10b981" />
-            <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
-              {t("roiNote")} — {t("annualPlan")}: $25
-            </p>
-          </div>
+          <p className="text-xs text-center leading-relaxed" style={{ color: "var(--text-muted)" }}>
+            {t("disclaimer")}
+          </p>
         </motion.div>
       </div>
     </section>
@@ -95,44 +91,47 @@ function SliderField({
   suffix: string;
   onChange: (v: number) => void;
 }) {
-  const fill = ((value - min) / (max - min)) * 100;
-
   return (
     <div>
-      <div className="flex justify-between mb-3">
+      <div className="flex justify-between mb-2">
         <label className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
           {label}
         </label>
-        <span className="text-sm font-bold tabular-nums" style={{ color: "var(--brand-pink)" }}>
+        <span className="text-sm font-bold font-mono" style={{ color: "var(--text-primary)" }}>
           {value}
           {suffix}
         </span>
       </div>
-      <div dir="ltr">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="range-slider"
-          style={{ "--fill": `${fill}%` } as React.CSSProperties}
-          aria-label={label}
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={value}
-        />
-      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full accent-[var(--primary)]"
+      />
     </div>
   );
 }
 
-function ResultCard({ label, value, unit, accent }: { label: string; value: string; unit: string; accent: string }) {
+function ResultCard({
+  label,
+  value,
+  unit,
+  accent,
+}: {
+  label: string;
+  value: string;
+  unit: string;
+  accent: string;
+}) {
   return (
-    <div className="rounded-2xl p-5" style={{ background: "var(--bg-elevated)", border: `1px solid ${accent}30` }}>
-      <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>{label}</p>
-      <p className="text-2xl sm:text-3xl font-black" style={{ color: accent }}>
+    <div className="rounded-2xl p-4 text-center" style={{ background: `${accent}12`, border: `1px solid ${accent}30` }}>
+      <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>
+        {label}
+      </p>
+      <p className="text-2xl font-black" style={{ color: accent }}>
         {value}
         <span className="text-sm font-semibold ms-1">{unit}</span>
       </p>
