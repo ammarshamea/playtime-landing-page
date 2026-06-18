@@ -9,12 +9,12 @@ import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 const ICONS = [Monitor, Timer, Coffee, BarChart3, WifiOff, Languages];
 
 const CARD_CONFIG = [
-  { bg: "rgba(53,42,95,0.18)",   border: "rgba(107,90,158,0.35)",  glow: "rgba(107,90,158,0.2)",  color: "#9b8bc4" },
-  { bg: "rgba(16,185,129,0.12)", border: "rgba(16,185,129,0.3)",   glow: "rgba(16,185,129,0.18)", color: "#10b981" },
-  { bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.3)",   glow: "rgba(245,158,11,0.18)", color: "#f59e0b" },
-  { bg: "rgba(92,78,138,0.18)",  border: "rgba(92,78,138,0.4)",    glow: "rgba(92,78,138,0.2)",   color: "#6b5a9e" },
-  { bg: "rgba(236,72,153,0.1)",  border: "rgba(236,72,153,0.28)",  glow: "rgba(236,72,153,0.16)", color: "#ec4899" },
-  { bg: "rgba(239,68,68,0.1)",   border: "rgba(239,68,68,0.28)",   glow: "rgba(239,68,68,0.16)",  color: "#f87171" },
+  { bg: "rgba(255,135,128,0.14)", border: "rgba(255,135,128,0.35)", glow: "rgba(255,135,128,0.2)",  color: "#ff8780" },
+  { bg: "rgba(242,90,88,0.13)",   border: "rgba(242,90,88,0.32)",   glow: "rgba(242,90,88,0.18)",  color: "#f25a58" },
+  { bg: "rgba(238,34,38,0.12)",   border: "rgba(238,34,38,0.3)",    glow: "rgba(238,34,38,0.18)",  color: "#ee2226" },
+  { bg: "rgba(230,5,13,0.12)",    border: "rgba(230,5,13,0.32)",    glow: "rgba(230,5,13,0.2)",    color: "#e6050d" },
+  { bg: "rgba(198,7,13,0.12)",    border: "rgba(198,7,13,0.3)",     glow: "rgba(198,7,13,0.18)",   color: "#c6070d" },
+  { bg: "rgba(135,3,5,0.14)",     border: "rgba(135,3,5,0.34)",     glow: "rgba(135,3,5,0.2)",     color: "#f25a58" },
 ];
 
 // ── 3-D tilt card ─────────────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ export default function FeaturesSection() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(53,42,95,0.28) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(135,3,5,0.28) 0%, transparent 70%)",
         }}
       />
 

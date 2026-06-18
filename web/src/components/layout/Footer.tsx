@@ -27,7 +27,7 @@ export default function Footer() {
             <div className="flex items-center gap-2.5">
               <BrandLogo
                 className="h-9 w-9 object-contain"
-                style={{ filter: "drop-shadow(0 0 10px rgba(139,92,246,0.3))" }}
+                style={{ filter: "drop-shadow(0 0 10px rgba(198,7,13,0.35))" }}
               />
               <span className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>
                 Playtime Manager

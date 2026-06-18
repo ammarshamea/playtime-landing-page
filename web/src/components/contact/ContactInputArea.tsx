@@ -39,7 +39,7 @@ export default function ContactInputArea({
       style={{
         borderColor: "rgba(255,255,255,0.08)",
         paddingBottom: "max(1rem, env(safe-area-inset-bottom))",
-        background: "#0E0B14",
+        background: "#100A0A",
       }}
     >
       <PhoneInput value={phone} onChange={setPhone} hasError={phoneError} />

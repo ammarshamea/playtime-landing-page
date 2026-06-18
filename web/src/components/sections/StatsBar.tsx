@@ -6,7 +6,7 @@ import { WifiOff, LayoutGrid, Coffee, BarChart3 } from "lucide-react";
 import { staggerContainer, popIn, viewportConfig } from "@/lib/animations";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
-const STAT_ACCENTS = ["#10b981", "#9b8bc4", "#5c8fd6", "#e879d9"] as const;
+const STAT_ACCENTS = ["#FF8780", "#F25A58", "#EE2226", "#C6070D"] as const;
 const STAT_ICONS = [WifiOff, LayoutGrid, Coffee, BarChart3] as const;
 
 export default function StatsBar() {

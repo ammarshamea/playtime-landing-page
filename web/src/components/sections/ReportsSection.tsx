@@ -15,7 +15,7 @@ export default function ReportsSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(53,42,95,0.25) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(135,3,5,0.25) 0%, transparent 70%)",
         }}
       />
 
@@ -56,7 +56,7 @@ export default function ReportsSection() {
           style={{
             background: "var(--bg-card)",
             borderColor: "var(--border)",
-            boxShadow: "0 20px 60px rgba(53,42,95,0.15)",
+            boxShadow: "0 20px 60px rgba(135,3,5,0.18)",
           }}
         >
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">

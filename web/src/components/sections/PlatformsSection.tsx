@@ -42,7 +42,7 @@ export default function PlatformsSection() {
           style={{
             background: "var(--bg-card)",
             border: "1px solid var(--border)",
-            boxShadow: "0 16px 48px rgba(53,42,95,0.12)",
+            boxShadow: "0 16px 48px rgba(135,3,5,0.14)",
           }}
         >
           <div

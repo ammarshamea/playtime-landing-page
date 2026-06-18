@@ -15,7 +15,7 @@ export default function ChatHeader({ onClose }: Props) {
     <header
       className="flex items-center gap-3 px-4 py-3 border-b shrink-0"
       style={{
-        background: "linear-gradient(135deg, #15111F, #24123A)",
+        background: "linear-gradient(135deg, #100A0A, #2A0809)",
         borderColor: "rgba(255,255,255,0.08)",
       }}
     >
@@ -26,7 +26,7 @@ export default function ChatHeader({ onClose }: Props) {
         <WhatsAppIcon size={22} />
         <span
           className="absolute bottom-0 end-0 h-2.5 w-2.5 rounded-full border-2"
-          style={{ background: "#22C55E", borderColor: "#15111F" }}
+          style={{ background: "#22C55E", borderColor: "#100A0A" }}
         />
       </div>
       <div className="flex-1 min-w-0">

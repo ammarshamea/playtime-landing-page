@@ -21,12 +21,12 @@ export default function PaymentMethodsSection() {
           className="rounded-[24px] p-6 sm:p-8"
           style={{
             background: "rgba(255,255,255,0.03)",
-            border: "1px solid rgba(167, 139, 250, 0.18)",
+            border: "1px solid rgba(198, 7, 13, 0.2)",
             backdropFilter: "blur(12px)",
           }}
         >
           <motion.div variants={fadeUp} className="flex items-center gap-3 mb-3">
-            <Wallet size={22} style={{ color: "#a78bfa" }} />
+            <Wallet size={22} style={{ color: "#F25A58" }} />
             <h3 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>
               {t("title")}
             </h3>
@@ -42,12 +42,12 @@ export default function PaymentMethodsSection() {
                 key={method}
                 className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
                 style={{
-                  background: "rgba(167, 139, 250, 0.1)",
-                  border: "1px solid rgba(167, 139, 250, 0.22)",
+                  background: "rgba(198, 7, 13, 0.1)",
+                  border: "1px solid rgba(198, 7, 13, 0.25)",
                   color: "rgba(255,255,255,0.85)",
                 }}
               >
-                <Smartphone size={12} style={{ color: "#c4b5fd" }} />
+                <Smartphone size={12} style={{ color: "#FF8780" }} />
                 {method}
               </span>
             ))}
@@ -63,9 +63,9 @@ export default function PaymentMethodsSection() {
             onClick={() => openContactChat({ prefillMessage: t("ctaPrefill") })}
             className="inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold"
             style={{
-              background: "rgba(167, 139, 250, 0.15)",
-              border: "1px solid rgba(167, 139, 250, 0.35)",
-              color: "#e9d5ff",
+              background: "rgba(198, 7, 13, 0.15)",
+              border: "1px solid rgba(198, 7, 13, 0.4)",
+              color: "#FF8780",
             }}
           >
             <Banknote size={16} />

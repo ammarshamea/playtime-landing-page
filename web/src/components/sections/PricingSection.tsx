@@ -22,24 +22,24 @@ type Plan = {
 const PLAN_STYLES = {
   monthly: {
     icon: Calendar,
-    accent: "#5c8fd6",
-    glow: "rgba(92,143,214,0.2)",
-    border: "rgba(92,143,214,0.35)",
-    bg: "linear-gradient(160deg, rgba(92,143,214,0.08) 0%, var(--bg-card) 100%)",
+    accent: "#FF8780",
+    glow: "rgba(255,135,128,0.2)",
+    border: "rgba(255,135,128,0.32)",
+    bg: "linear-gradient(160deg, rgba(255,135,128,0.07) 0%, var(--bg-card) 100%)",
   },
   semiannual: {
     icon: CalendarRange,
-    accent: "#9b8bc4",
-    glow: "rgba(155,139,196,0.28)",
-    border: "rgba(155,139,196,0.4)",
-    bg: "linear-gradient(160deg, rgba(107,90,158,0.14) 0%, var(--bg-card) 100%)",
+    accent: "#F25A58",
+    glow: "rgba(242,90,88,0.28)",
+    border: "rgba(242,90,88,0.4)",
+    bg: "linear-gradient(160deg, rgba(242,90,88,0.12) 0%, var(--bg-card) 100%)",
   },
   annual: {
     icon: Crown,
-    accent: "#e879d9",
-    glow: "rgba(232,121,217,0.45)",
-    border: "rgba(232,121,217,0.55)",
-    bg: "linear-gradient(160deg, rgba(232,121,217,0.13) 0%, var(--bg-card) 100%)",
+    accent: "#EE2226",
+    glow: "rgba(238,34,38,0.45)",
+    border: "rgba(238,34,38,0.55)",
+    bg: "linear-gradient(160deg, rgba(238,34,38,0.13) 0%, var(--bg-card) 100%)",
   },
 } as const;
 
@@ -86,7 +86,7 @@ function CurrencyToggle({
         onClick={onSelectSyp}
         className="inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all min-w-[88px]"
         style={{
-          background: mode === "SYP" ? "rgba(167, 139, 250, 0.25)" : "transparent",
+          background: mode === "SYP" ? "rgba(198, 7, 13, 0.3)" : "transparent",
           color: mode === "SYP" ? "#fff" : "rgba(255,255,255,0.55)",
         }}
       >
@@ -151,7 +151,7 @@ export default function PricingSection() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 80% 55% at 50% 35%, rgba(53,42,95,0.32) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 55% at 50% 35%, rgba(135,3,5,0.32) 0%, transparent 70%)",
         }}
       />
 
@@ -245,7 +245,7 @@ export default function PricingSection() {
                   <span
                     className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-0.5 text-[11px] font-bold"
                     style={{
-                      background: "linear-gradient(135deg, #e879d9, #9b8bc4)",
+                      background: "linear-gradient(135deg, #EE2226, #870305)",
                       color: "#fff",
                     }}
                   >
@@ -328,8 +328,8 @@ export default function PricingSection() {
                     className="block w-full text-center rounded-xl py-3 text-sm font-semibold text-white"
                     style={{
                       background: featured
-                        ? `linear-gradient(135deg, ${style.accent}, var(--brand-violet))`
-                        : "rgba(139, 92, 246, 0.5)",
+                        ? `linear-gradient(135deg, ${style.accent}, var(--brand-red-deep))`
+                        : "rgba(198, 7, 13, 0.5)",
                     }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -378,7 +378,7 @@ export default function PricingSection() {
         >
           {promos.map((promo, i) => {
             const PromoIcon = i === 0 ? Gift : Sparkles;
-            const accent = i === 0 ? "#5c8fd6" : "#e879d9";
+            const accent = i === 0 ? "#F25A58" : "#EE2226";
             return (
               <motion.div
                 key={promo.title}

@@ -85,7 +85,7 @@ export default function ProblemSection() {
           viewport={viewportConfig}
           className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl mx-auto max-w-sm"
           style={{
-            background: "rgba(53,42,95,0.12)",
+            background: "rgba(198,7,13,0.12)",
             border: "1px solid var(--border-strong)",
           }}
         >

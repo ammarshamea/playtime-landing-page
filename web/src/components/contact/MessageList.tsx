@@ -21,7 +21,7 @@ export default function MessageList({ messages }: Props) {
       className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0"
       style={{
         background:
-          "radial-gradient(circle at 20% 20%, rgba(139,92,246,0.04), transparent 40%), #0a0810",
+          "radial-gradient(circle at 20% 20%, rgba(198,7,13,0.05), transparent 40%), #0C0101",
       }}
     >
       <AnimatePresence initial={false}>

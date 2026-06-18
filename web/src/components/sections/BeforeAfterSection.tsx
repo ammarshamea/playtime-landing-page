@@ -15,7 +15,7 @@ export default function BeforeAfterSection() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(53,42,95,0.18) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(135,3,5,0.18) 0%, transparent 70%)",
         }}
       />
 

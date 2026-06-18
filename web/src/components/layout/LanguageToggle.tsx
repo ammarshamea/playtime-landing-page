@@ -47,7 +47,7 @@ export default function LanguageToggle({ compact }: { compact?: boolean }) {
               height: compact ? 28 : 30,
               opacity: active ? 1 : 0.55,
               boxShadow: active ? "0 0 0 2px rgba(155,139,196,0.55)" : "none",
-              background: active ? "rgba(53,42,95,0.35)" : "transparent",
+              background: active ? "rgba(198,7,13,0.3)" : "transparent",
             }}
             onMouseEnter={(e) => {
               if (!active) (e.currentTarget as HTMLButtonElement).style.opacity = "0.85";

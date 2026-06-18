@@ -34,7 +34,7 @@ export default function Header() {
     <header
       className="fixed top-0 inset-x-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled ? "rgba(17, 14, 28, 0.85)" : "transparent",
+        background: scrolled ? "rgba(3, 1, 1, 0.85)" : "transparent",
         backdropFilter: scrolled ? "blur(16px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
@@ -44,7 +44,7 @@ export default function Header() {
         <a href="#" className="flex items-center gap-2 shrink-0 group z-10">
           <BrandLogo
             className="h-9 w-9 sm:h-10 sm:w-10 object-contain transition-transform group-hover:scale-105"
-            style={{ filter: "drop-shadow(0 0 12px rgba(139,92,246,0.35))" }}
+            style={{ filter: "drop-shadow(0 0 12px rgba(198,7,13,0.4))" }}
           />
           <span
             className="font-bold text-sm hidden sm:inline"
@@ -106,7 +106,7 @@ export default function Header() {
         <div
           className="lg:hidden border-t py-4 px-4 flex flex-col gap-1"
           style={{
-            background: "rgba(17, 14, 28, 0.97)",
+            background: "rgba(3, 1, 1, 0.97)",
             backdropFilter: "blur(16px)",
             borderColor: "var(--border)",
           }}

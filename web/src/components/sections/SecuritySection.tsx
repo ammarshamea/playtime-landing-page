@@ -6,7 +6,7 @@ import { Smartphone, Lock, Database, Cloud, ShieldCheck } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
 
 const ICONS = [Smartphone, Lock, Database, Cloud];
-const COLORS = ["#9b8bc4", "#f59e0b", "#10b981", "#5c8fd6"];
+const COLORS = ["#FF8780", "#F25A58", "#EE2226", "#C6070D"];
 
 export default function SecuritySection() {
   const t = useTranslations("security");
@@ -18,7 +18,7 @@ export default function SecuritySection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 80% 20%, rgba(53,42,95,0.2) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 40% at 80% 20%, rgba(135,3,5,0.2) 0%, transparent 70%)",
         }}
       />
 

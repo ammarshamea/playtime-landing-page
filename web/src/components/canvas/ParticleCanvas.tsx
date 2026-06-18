@@ -110,8 +110,8 @@ export default function ParticleCanvas() {
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
             ctx.strokeStyle = bothActive
-              ? `rgba(92, 78, 138, ${alpha * 2.5})`
-              : `rgba(53, 42, 95, ${alpha})`;
+              ? `rgba(238, 34, 38, ${alpha * 2.5})`
+              : `rgba(135, 3, 5, ${alpha})`;
             ctx.lineWidth = bothActive ? 0.9 : 0.45;
             ctx.stroke();
           }
@@ -131,8 +131,8 @@ export default function ParticleCanvas() {
             p.x, p.y, 0,
             p.x, p.y, glowRadius
           );
-          gradient.addColorStop(0, `rgba(92, 78, 138, 0.5)`);
-          gradient.addColorStop(1, `rgba(92, 78, 138, 0)`);
+          gradient.addColorStop(0, `rgba(238, 34, 38, 0.5)`);
+          gradient.addColorStop(1, `rgba(238, 34, 38, 0)`);
           ctx.beginPath();
           ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2);
           ctx.fillStyle = gradient;
@@ -142,8 +142,8 @@ export default function ParticleCanvas() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.active
-          ? `rgba(155, 139, 196, ${0.7 * pulse})`
-          : "rgba(53, 42, 95, 0.35)";
+          ? `rgba(255, 135, 128, ${0.7 * pulse})`
+          : "rgba(135, 3, 5, 0.35)";
         ctx.fill();
       }
 

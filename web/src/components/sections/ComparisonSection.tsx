@@ -106,7 +106,7 @@ export default function ComparisonSection() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(53,42,95,0.22) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 0%, rgba(135,3,5,0.22) 0%, transparent 70%)",
         }}
       />
 
@@ -163,7 +163,7 @@ export default function ComparisonSection() {
           style={{
             borderColor: "var(--border)",
             background: "var(--bg)",
-            boxShadow: "0 20px 60px rgba(53,42,95,0.15)",
+            boxShadow: "0 20px 60px rgba(135,3,5,0.18)",
           }}
         >
           <table className="w-full border-collapse">
@@ -178,7 +178,7 @@ export default function ComparisonSection() {
                     className="p-4 sm:p-5 text-center text-sm font-semibold"
                     style={{
                       color: col.highlight ? "var(--brand-pink)" : "var(--text-secondary)",
-                      background: col.highlight ? "rgba(53,42,95,0.25)" : "transparent",
+                      background: col.highlight ? "rgba(198,7,13,0.22)" : "transparent",
                     }}
                   >
                     {col.label}
@@ -202,7 +202,7 @@ export default function ComparisonSection() {
                       key={col.key}
                       className="p-4 sm:p-5 text-center"
                       style={{
-                        background: col.highlight ? "rgba(53,42,95,0.12)" : "transparent",
+                        background: col.highlight ? "rgba(198,7,13,0.1)" : "transparent",
                       }}
                     >
                       <CellIcon value={row[col.key]} highlight={col.highlight} />

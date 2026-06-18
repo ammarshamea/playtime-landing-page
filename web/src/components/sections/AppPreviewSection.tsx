@@ -42,7 +42,7 @@ export default function AppPreviewSection() {
           <div
             className="relative w-full max-w-md sm:max-w-lg"
             style={{
-              filter: "drop-shadow(0 32px 64px rgba(53,42,95,0.45))",
+              filter: "drop-shadow(0 32px 64px rgba(135,3,5,0.45))",
             }}
           >
             <img

@@ -6,7 +6,7 @@ import { MessageCircle } from "lucide-react";
 import { fadeUp, staggerContainer, popIn, viewportConfig, EASE_OUT_EXPO } from "@/lib/animations";
 import { whatsappUrl } from "@/lib/whatsapp";
 
-const STEP_COLORS = ["#9b8bc4", "#e879d9", "#10b981"] as const;
+const STEP_COLORS = ["#FF8780", "#EE2226", "#C6070D"] as const;
 
 export default function HowItWorksSection() {
   const t = useTranslations("howItWorks");
@@ -19,7 +19,7 @@ export default function HowItWorksSection() {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(53,42,95,0.22) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(135,3,5,0.22) 0%, transparent 70%)",
         }}
       />
 
@@ -73,10 +73,10 @@ export default function HowItWorksSection() {
               />
               <defs>
                 <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%"   stopColor="#352a5f" stopOpacity="0" />
-                  <stop offset="30%"  stopColor="#9b8bc4" stopOpacity="0.7" />
-                  <stop offset="70%"  stopColor="#e879d9" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#10b981"  stopOpacity="0" />
+                  <stop offset="0%"   stopColor="#870305" stopOpacity="0" />
+                  <stop offset="30%"  stopColor="#FF8780" stopOpacity="0.7" />
+                  <stop offset="70%"  stopColor="#EE2226" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#C6070D"  stopOpacity="0" />
                 </linearGradient>
               </defs>
             </svg>

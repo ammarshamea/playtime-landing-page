@@ -131,14 +131,14 @@ export default function HeroSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(17,14,28,0.35) 0%, rgba(17,14,28,0.5) 50%, rgba(17,14,28,0.88) 100%)",
+            "linear-gradient(to bottom, rgba(3,1,1,0.35) 0%, rgba(3,1,1,0.5) 50%, rgba(3,1,1,0.88) 100%)",
         }}
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 85% 65% at 50% 42%, rgba(17,14,28,0.55) 0%, rgba(17,14,28,0.2) 50%, transparent 78%)",
+            "radial-gradient(ellipse 85% 65% at 50% 42%, rgba(76,2,2,0.45) 0%, rgba(3,1,1,0.2) 50%, transparent 78%)",
         }}
       />
 
@@ -154,14 +154,14 @@ export default function HeroSection() {
       <div
         className="absolute bottom-0 inset-x-0 h-40 pointer-events-none"
         style={{
-          background: "linear-gradient(to bottom, transparent 0%, rgba(17,14,28,0.5) 55%, var(--bg) 100%)",
+          background: "linear-gradient(to bottom, transparent 0%, rgba(3,1,1,0.5) 55%, var(--bg) 100%)",
         }}
       />
 
       {/* ── Content ── */}
       <motion.div
         style={{ y: contentY }}
-        className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center [text-shadow:0_2px_24px_rgba(17,14,28,0.85)]"
+        className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center [text-shadow:0_2px_24px_rgba(3,1,1,0.85)]"
       >
         <motion.div
           variants={staggerContainer}
@@ -180,7 +180,7 @@ export default function HeroSection() {
               },
             }}
             className="hidden md:block animate-float"
-            style={{ filter: "drop-shadow(0 0 48px rgba(139,92,246,0.55))" }}
+            style={{ filter: "drop-shadow(0 0 48px rgba(198,7,13,0.55))" }}
           >
             <BrandLogo className="h-20 w-20 lg:h-28 lg:w-28 object-contain" />
           </motion.div>
@@ -189,7 +189,7 @@ export default function HeroSection() {
           <motion.div variants={fadeUp}>
             <motion.span
               className="section-label"
-              whileHover={{ scale: 1.06, borderColor: "rgba(107,90,158,0.6)" }}
+              whileHover={{ scale: 1.06, borderColor: "rgba(238,34,38,0.6)" }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <Gamepad2 size={13} />

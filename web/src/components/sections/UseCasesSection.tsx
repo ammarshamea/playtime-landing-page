@@ -44,8 +44,8 @@ export default function UseCasesSection() {
             const Icon = ICONS[i];
             return (
               <motion.div key={item.title} variants={fadeUp} whileHover={{ y: -4 }} className="card p-5 flex flex-col gap-3">
-                <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background: "rgba(53,42,95,0.2)", border: "1px solid var(--border)" }}>
-                  <Icon size={20} color="var(--brand-pink)" />
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background: "rgba(198,7,13,0.14)", border: "1px solid var(--border)" }}>
+                  <Icon size={20} color="var(--brand-coral)" />
                 </div>
                 <h3 className="font-semibold text-sm" style={{ color: "var(--text-primary)" }}>{item.title}</h3>
                 <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>{item.desc}</p>

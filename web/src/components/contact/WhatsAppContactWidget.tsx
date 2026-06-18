@@ -37,10 +37,10 @@ export default function WhatsAppContactWidget() {
                 inset-x-0 bottom-0 h-[82dvh] rounded-t-3xl
                 md:inset-auto md:end-6 md:bottom-24 md:w-[400px] md:h-[600px] md:rounded-3xl"
               style={{
-                background: "#0E0B14",
+                background: "#100A0A",
                 border: "1px solid rgba(255,255,255,0.08)",
                 boxShadow:
-                  "0 24px 70px rgba(0,0,0,0.55), 0 0 40px rgba(139,92,246,0.15)",
+                  "0 24px 70px rgba(0,0,0,0.55), 0 0 40px rgba(198,7,13,0.18)",
               }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}

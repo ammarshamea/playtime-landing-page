@@ -59,7 +59,7 @@ export default function SupportSection() {
             <div className="flex items-center gap-3">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center"
-                style={{ background: "rgba(53,42,95,0.2)" }}
+                style={{ background: "rgba(198,7,13,0.14)" }}
               >
                 <Clock size={22} color="var(--brand-pink)" />
               </div>
@@ -173,7 +173,7 @@ export default function SupportSection() {
                   <span
                     className="flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold"
                     style={{
-                      background: "rgba(53,42,95,0.25)",
+                      background: "rgba(198,7,13,0.2)",
                       color: "var(--brand-pink)",
                     }}
                   >

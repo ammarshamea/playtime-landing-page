@@ -61,8 +61,8 @@ export default function ROICalculatorSection() {
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 pt-4 border-t" style={{ borderColor: "var(--border)" }}>
-            <ResultCard label={t("dailyWaste")} value={String(dailyWaste)} unit={t("perDay")} accent="#f59e0b" />
-            <ResultCard label={t("monthlyWaste")} value={String(monthlyWaste)} unit={t("perMonth")} accent="#ef4444" />
+            <ResultCard label={t("dailyWaste")} value={String(dailyWaste)} unit={t("perDay")} accent="#F25A58" />
+            <ResultCard label={t("monthlyWaste")} value={String(monthlyWaste)} unit={t("perMonth")} accent="#E6050D" />
           </div>
 
           <p className="text-xs text-center leading-relaxed" style={{ color: "var(--text-muted)" }}>
