@@ -11,6 +11,10 @@ web/.next/
 web/out/
 web/.env*
 web/*.tsbuildinfo
+.next/
+/node_modules/
+next-env.d.ts
+tsconfig.tsbuildinfo
 
 # Backend (Laravel)
 backend/vendor/

@@ -46,7 +46,24 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 
 ## Database
 
-Default: SQLite (`database/database.sqlite`).
+MySQL (XAMPP / local):
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=playtime
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Create the database once:
+
+```sql
+CREATE DATABASE playtime CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Then run `php artisan migrate`.
 
 ## WhatsApp
 

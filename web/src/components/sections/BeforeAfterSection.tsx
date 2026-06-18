@@ -69,8 +69,8 @@ export default function BeforeAfterSection() {
 
             <h3 className="text-lg font-bold mb-6 flex items-center gap-2" style={{ color: "#f87171" }}>
               <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                animate={{ rotate: [0, 10] }}
+                transition={{ repeat: Infinity, repeatType: "mirror", duration: 3, ease: "easeInOut" }}
               >
                 <X size={20} />
               </motion.div>
@@ -123,8 +123,8 @@ export default function BeforeAfterSection() {
 
             <h3 className="text-lg font-bold mb-6 flex items-center gap-2" style={{ color: "#34d399" }}>
               <motion.div
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                animate={{ scale: [1, 1.15] }}
+                transition={{ repeat: Infinity, repeatType: "mirror", duration: 2.5, ease: "easeInOut" }}
               >
                 <Check size={20} />
               </motion.div>

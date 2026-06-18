@@ -46,7 +46,7 @@ export default function AppPreviewSection() {
             }}
           >
             <img
-              src="/playtime-mobile.png"
+              src="/playtime-mobile-red.png"
               alt={t("imageAlt")}
               className="w-full h-auto object-contain rounded-2xl"
               loading="lazy"

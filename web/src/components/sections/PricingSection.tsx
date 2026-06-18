@@ -4,7 +4,8 @@ import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Calendar, CalendarRange, Crown, Gift, Sparkles, CreditCard, Check, Loader2 } from "lucide-react";
-import { fadeUp, scaleIn, popIn, staggerContainer, viewportConfig } from "@/lib/animations";
+import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
+import Card3D from "@/components/ui/Card3D";
 import { fetchUsdExchangeRate } from "@/lib/exchange-rate-api";
 import { computeSypPrice, formatExchangeFetchedAt, formatSyp } from "@/lib/format-currency";
 import { openContactChat } from "@/lib/open-contact-chat";
@@ -226,15 +227,24 @@ export default function PricingSection() {
             return (
               <motion.div
                 key={plan.id}
-                variants={featured ? popIn : scaleIn}
-                animate={featured ? { y: [0, -6, 0] } : undefined}
-                transition={featured ? { y: { repeat: Infinity, duration: 4, ease: "easeInOut" } } : undefined}
-                whileHover={{
-                  y: featured ? -10 : -4,
-                  boxShadow: `0 24px 56px ${style.glow}`,
-                  transition: { duration: 0.25 },
-                }}
-                className={`relative flex flex-col rounded-[28px] p-6 sm:p-7 ${featured ? "md:-mt-2 md:scale-[1.03]" : ""}`}
+                initial={{ opacity: 0, y: 50, rotateX: featured ? -30 : -20, scale: 0.88, filter: "blur(8px)" }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ type: "spring", stiffness: 120, damping: 18, delay: featured ? 0.1 : 0 }}
+                animate={featured ? { y: [0, -7] } : undefined}
+                // @ts-ignore
+                transition2={featured ? { y: { repeat: Infinity, repeatType: "mirror", duration: 4, ease: "easeInOut" } } : undefined}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                transition2={featured ? { y: { repeat: Infinity, duration: 4, ease: "easeInOut" } } : undefined}
+                className={`${featured ? "md:-mt-3 md:scale-[1.04]" : ""}`}
+                style={{ perspective: 900, transformStyle: "preserve-3d" }}
+              >
+              <Card3D
+                tilt={featured ? 12 : 9}
+                accent={style.glow}
+                liftZ={featured ? 28 : 16}
+                className={`relative flex flex-col rounded-[28px] p-6 sm:p-7 h-full`}
                 style={{
                   background: style.bg,
                   border: `1px solid ${style.border}`,
@@ -337,6 +347,7 @@ export default function PricingSection() {
                     {plan.cta}
                   </motion.button>
                 </div>
+              </Card3D>
               </motion.div>
             );
           })}

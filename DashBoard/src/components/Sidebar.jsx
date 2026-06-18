@@ -1,96 +1,190 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, KeyRound, Key, ScanSearch, X, Sparkles } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { id: 'overview', label: 'الرئيسية', icon: LayoutDashboard },
-  { id: 'generate', label: 'توليد Token', icon: KeyRound },
-  { id: 'keys', label: 'المفاتيح', icon: Key },
-  { id: 'decode', label: 'قراءة Token', icon: ScanSearch },
+  { id: 'overview',  label: 'الرئيسية',     icon: LayoutDashboard, desc: 'لوحة التحكم' },
+  { id: 'generate',  label: 'توليد Token',  icon: KeyRound,        desc: 'إنشاء كود تفعيل' },
+  { id: 'keys',      label: 'المفاتيح',     icon: Key,             desc: 'Ed25519' },
+  { id: 'decode',    label: 'قراءة Token',  icon: ScanSearch,      desc: 'فك وتحليل' },
 ];
+
+const SIDEBAR_W = 'w-64';
+
+function NavItem({ item, active, onClick }) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      className="relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group text-start"
+      style={{
+        color: active ? '#fff' : 'var(--muted)',
+        background: active ? 'rgba(139,92,246,0.18)' : 'transparent',
+      }}
+      whileHover={{ x: 2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+    >
+      {/* Active indicator bar */}
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            layoutId="nav-active"
+            className="absolute inset-0 rounded-xl"
+            style={{
+              background: 'linear-gradient(135deg, rgba(139,92,246,0.22) 0%, rgba(99,102,241,0.14) 100%)',
+              border: '1px solid rgba(139,92,246,0.3)',
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Active side accent */}
+      <AnimatePresence>
+        {active && (
+          <motion.div
+            className="absolute end-0 top-1/2 w-[3px] h-5 rounded-full"
+            style={{ background: 'var(--accent)', translateY: '-50%' }}
+            initial={{ scaleY: 0, opacity: 0 }}
+            animate={{ scaleY: 1, opacity: 1 }}
+            exit={{ scaleY: 0, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 500, damping: 24 }}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        className="relative z-10 flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+        style={{
+          background: active ? 'rgba(139,92,246,0.25)' : 'rgba(255,255,255,0.04)',
+          border: `1px solid ${active ? 'rgba(139,92,246,0.35)' : 'rgba(255,255,255,0.06)'}`,
+        }}
+        animate={{
+          boxShadow: active ? '0 0 16px rgba(139,92,246,0.3)' : '0 0 0 transparent',
+        }}
+      >
+        <item.icon size={14} />
+      </motion.div>
+
+      <div className="relative z-10 flex flex-col items-start min-w-0">
+        <span className="leading-tight">{item.label}</span>
+        <span className="text-[10px] opacity-50 leading-none mt-0.5">{item.desc}</span>
+      </div>
+    </motion.button>
+  );
+}
 
 export default function Sidebar({ currentPage, onNavigate, open, onClose }) {
   return (
-    <aside
-      className={`
-        fixed lg:static inset-y-0 right-0 z-50
-        w-[272px] flex-shrink-0 flex flex-col
-        bg-zinc-950/90 backdrop-blur-2xl border-l border-white/[0.06]
-        transition-transform duration-300 ease-spring
-        ${open ? 'translate-x-0 shadow-2xl shadow-black/50' : 'translate-x-full lg:translate-x-0'}
-      `}
-    >
-      <div className="px-5 h-16 flex items-center justify-between border-b border-white/[0.06]">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-glow">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-zinc-50 leading-tight">PlayJaramanaa</p>
-            <p className="text-[10px] text-zinc-500 mt-0.5 font-medium">License Console</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="lg:hidden p-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.04] transition-colors"
+    <>
+      {/* Desktop sidebar */}
+      <aside
+        className={`hidden lg:flex flex-col ${SIDEBAR_W} border-r flex-shrink-0 relative z-20`}
+        style={{
+          background: 'rgba(8,8,14,0.85)',
+          backdropFilter: 'blur(32px)',
+          borderColor: 'var(--border)',
+        }}
+      >
+        <SidebarInner currentPage={currentPage} onNavigate={onNavigate} />
+      </aside>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              key="backdrop"
+              className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+            />
+            <motion.aside
+              key="drawer"
+              className={`fixed top-0 start-0 bottom-0 z-50 flex flex-col ${SIDEBAR_W} lg:hidden`}
+              style={{
+                background: 'rgba(8,8,14,0.97)',
+                backdropFilter: 'blur(40px)',
+                borderInlineEnd: '1px solid var(--border)',
+              }}
+              initial={{ x: '-100%', opacity: 0.8 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '-100%', opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+            >
+              <button
+                type="button"
+                onClick={onClose}
+                className="absolute top-4 end-4 p-1.5 rounded-lg text-zinc-500 hover:text-zinc-100 hover:bg-white/[0.06] transition-colors"
+                aria-label="إغلاق"
+              >
+                <X size={16} />
+              </button>
+              <SidebarInner currentPage={currentPage} onNavigate={onNavigate} />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function SidebarInner({ currentPage, onNavigate }) {
+  return (
+    <div className="flex flex-col h-full p-4 gap-1 overflow-y-auto">
+      {/* Logo */}
+      <div className="flex items-center gap-2.5 px-1 mb-5 mt-1">
+        <motion.div
+          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+          style={{
+            background: 'linear-gradient(135deg, rgba(139,92,246,0.3), rgba(99,102,241,0.2))',
+            border: '1px solid rgba(139,92,246,0.4)',
+            boxShadow: '0 0 20px rgba(139,92,246,0.2)',
+          }}
+          animate={{ boxShadow: ['0 0 20px rgba(139,92,246,0.2)', '0 0 40px rgba(139,92,246,0.35)', '0 0 20px rgba(139,92,246,0.2)'] }}
+          transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
         >
-          <X className="w-5 h-5" />
-        </button>
+          <Sparkles size={15} style={{ color: '#c4b5fd' }} />
+        </motion.div>
+        <div className="flex flex-col">
+          <span className="text-sm font-bold text-zinc-100">Playtime</span>
+          <span className="text-[10px]" style={{ color: 'var(--muted)' }}>License Dashboard</span>
+        </div>
       </div>
 
-      <nav className="flex-1 px-3 py-6 space-y-1">
-        <p className="px-3 mb-3 text-[10px] font-semibold text-zinc-600 uppercase tracking-[0.15em]">
-          القائمة
-        </p>
-        {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
-          const active = currentPage === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => onNavigate(id)}
-              className={`
-                group relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-right
-                transition-all duration-200 ease-spring
-                ${
-                  active
-                    ? 'bg-violet-500/15 text-violet-100'
-                    : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.03]'
-                }
-              `}
-            >
-              {active && (
-                <span
-                  className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-violet-500 animate-nav-indicator"
-                  aria-hidden
-                />
-              )}
-              <span
-                className={`
-                  w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200
-                  ${
-                    active
-                      ? 'bg-violet-500/20 text-violet-300'
-                      : 'bg-zinc-900/80 text-zinc-600 group-hover:text-zinc-400 group-hover:bg-zinc-800/80'
-                  }
-                `}
-              >
-                <Icon className="w-4 h-4" />
-              </span>
-              <span className={`text-sm font-medium ${active ? 'text-zinc-50' : ''}`}>{label}</span>
-            </button>
-          );
-        })}
+      {/* Divider */}
+      <div className="divider-glow mb-3" />
+
+      {/* Nav items */}
+      <nav className="flex flex-col gap-0.5">
+        {NAV_ITEMS.map((item) => (
+          <NavItem
+            key={item.id}
+            item={item}
+            active={currentPage === item.id}
+            onClick={() => onNavigate(item.id)}
+          />
+        ))}
       </nav>
 
-      <div className="px-5 py-5 border-t border-white/[0.06]">
-        <div className="p-3 rounded-xl bg-zinc-900/60 border border-white/[0.04]">
-          <p className="text-[10px] text-zinc-500 leading-relaxed">
-            التوقيع يعمل محلياً في المتصفح — لا يُرسل أي بيانات للشبكة.
+      {/* Footer */}
+      <div className="mt-auto pt-4">
+        <div className="divider-glow mb-4" />
+        <div className="px-1 flex flex-col gap-1">
+          <p className="text-[10px] font-mono" style={{ color: 'var(--muted-dim)' }}>
+            PT1 Format · Ed25519
           </p>
-          <p className="text-[10px] text-zinc-700 font-mono mt-2">Ed25519 · PT1</p>
+          <p className="text-[10px]" style={{ color: 'var(--muted-dim)' }}>
+            Playtime Manager © {new Date().getFullYear()}
+          </p>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

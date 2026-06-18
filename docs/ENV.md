@@ -5,6 +5,12 @@
 | Variable | Example | Purpose |
 |----------|---------|---------|
 | `APP_URL` | `http://localhost:8001` | Laravel base URL |
+| `DB_CONNECTION` | `mysql` | Database driver |
+| `DB_HOST` | `127.0.0.1` | MySQL host |
+| `DB_PORT` | `3306` | MySQL port |
+| `DB_DATABASE` | `playtime` | Database name |
+| `DB_USERNAME` | `root` | MySQL user |
+| `DB_PASSWORD` | *(empty for XAMPP)* | MySQL password |
 | `CORS_ALLOWED_ORIGINS` | `http://localhost:3000,...` | Allowed web origins |
 | `EVOLUTION_ENABLED` | `true` | Enable WhatsApp notifications |
 | `EVOLUTION_BASE_URL` | `http://127.0.0.1:8080` | Evolution API |

@@ -1,112 +1,29 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Monitor, Timer, Coffee, BarChart3, WifiOff, Languages } from "lucide-react";
 import { fadeUp, staggerContainer, viewportConfig } from "@/lib/animations";
+import Card3D from "@/components/ui/Card3D";
+import dynamic from "next/dynamic";
+
+const PerspectiveGrid = dynamic(() => import("@/components/canvas/PerspectiveGrid"), { ssr: false });
 
 const ICONS = [Monitor, Timer, Coffee, BarChart3, WifiOff, Languages];
 
 const CARD_CONFIG = [
-  { bg: "rgba(255,135,128,0.14)", border: "rgba(255,135,128,0.35)", glow: "rgba(255,135,128,0.2)",  color: "#ff8780" },
-  { bg: "rgba(242,90,88,0.13)",   border: "rgba(242,90,88,0.32)",   glow: "rgba(242,90,88,0.18)",  color: "#f25a58" },
-  { bg: "rgba(238,34,38,0.12)",   border: "rgba(238,34,38,0.3)",    glow: "rgba(238,34,38,0.18)",  color: "#ee2226" },
-  { bg: "rgba(230,5,13,0.12)",    border: "rgba(230,5,13,0.32)",    glow: "rgba(230,5,13,0.2)",    color: "#e6050d" },
-  { bg: "rgba(198,7,13,0.12)",    border: "rgba(198,7,13,0.3)",     glow: "rgba(198,7,13,0.18)",   color: "#c6070d" },
-  { bg: "rgba(135,3,5,0.14)",     border: "rgba(135,3,5,0.34)",     glow: "rgba(135,3,5,0.2)",     color: "#f25a58" },
+  { color: "#ff8780", rgb: "255,135,128" },
+  { color: "#f25a58", rgb: "242,90,88" },
+  { color: "#ee2226", rgb: "238,34,38" },
+  { color: "#e6050d", rgb: "230,5,13" },
+  { color: "#c6070d", rgb: "198,7,13" },
+  { color: "#f25a58", rgb: "242,90,88" },
 ];
 
-// ── 3-D tilt card ─────────────────────────────────────────────────────────────
-function TiltCard({
-  item,
-  index,
-}: {
-  item: { title: string; desc: string };
-  index: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const cfg = CARD_CONFIG[index];
-  const Icon = ICONS[index];
-
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 220, damping: 22 });
-  const sy = useSpring(my, { stiffness: 220, damping: 22 });
-  const rotateX = useTransform(sy, [-40, 40], [6, -6]);
-  const rotateY = useTransform(sx, [-40, 40], [-6, 6]);
-  const glowX = useTransform(sx, [-40, 40], ["0%", "100%"]);
-  const glowY = useTransform(sy, [-40, 40], ["0%", "100%"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    mx.set(e.clientX - rect.left - rect.width / 2);
-    my.set(e.clientY - rect.top - rect.height / 2);
-  };
-  const handleMouseLeave = () => { mx.set(0); my.set(0); };
-
-  return (
-    <motion.div
-      ref={ref}
-      variants={fadeUp}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformPerspective: 900 }}
-      whileHover={{ z: 20 }}
-      className="relative flex flex-col gap-4 rounded-[24px] p-6 cursor-default overflow-hidden"
-    >
-      {/* Base background */}
-      <div
-        className="absolute inset-0 rounded-[24px] transition-all duration-300"
-        style={{
-          background: "var(--bg-card)",
-          border: `1px solid ${cfg.border}`,
-          boxShadow: `0 12px 40px ${cfg.glow}`,
-        }}
-      />
-
-      {/* Dynamic spotlight follow */}
-      <motion.div
-        className="absolute inset-0 rounded-[24px] pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse 60% 60% at ${glowX} ${glowY}, ${cfg.bg}, transparent)`,
-          opacity: 0.7,
-        }}
-      />
-
-      {/* Icon */}
-      <motion.div
-        className="relative w-12 h-12 rounded-2xl flex items-center justify-center"
-        style={{ background: cfg.bg, border: `1px solid ${cfg.border}` }}
-        whileHover={{ scale: 1.15, rotate: 8 }}
-        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-      >
-        <Icon size={21} color={cfg.color} />
-      </motion.div>
-
-      <div className="relative">
-        <h3 className="font-semibold mb-2" style={{ color: "var(--text-primary)" }}>
-          {item.title}
-        </h3>
-        <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-          {item.desc}
-        </p>
-      </div>
-
-      {/* Bottom accent line */}
-      <motion.div
-        className="absolute bottom-0 inset-x-8 h-px rounded-full"
-        style={{ background: `linear-gradient(to right, transparent, ${cfg.color}, transparent)` }}
-        initial={{ scaleX: 0, opacity: 0 }}
-        whileHover={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-      />
-    </motion.div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
+const revealCard = {
+  hidden: { opacity: 0, y: 50, rotateX: -25, scale: 0.9, filter: "blur(8px)" },
+  visible: { opacity: 1, y: 0, rotateX: 0, scale: 1, filter: "blur(0px)" },
+};
 
 export default function FeaturesSection() {
   const t = useTranslations("features");
@@ -114,15 +31,21 @@ export default function FeaturesSection() {
 
   return (
     <section id="features" className="py-28 relative overflow-hidden" style={{ background: "var(--bg-card)" }}>
-      {/* Top ambient glow */}
+      {/* 3D Perspective Grid floor */}
+      <div className="absolute inset-0 opacity-60 pointer-events-none">
+        <PerspectiveGrid opacity={0.14} color="#c6070d" />
+      </div>
+
+      {/* Ambient radial */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(135,3,5,0.28) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(198,7,13,0.1) 0%, transparent 65%)",
         }}
       />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Heading */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -136,7 +59,7 @@ export default function FeaturesSection() {
           <motion.h2
             variants={fadeUp}
             className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
-            style={{ color: "var(--text-primary)" }}
+            style={{ color: "var(--text-primary)", perspective: 800 }}
           >
             {t("title")}
           </motion.h2>
@@ -149,17 +72,78 @@ export default function FeaturesSection() {
           </motion.p>
         </motion.div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
+        {/* Cards grid */}
+        <div
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+          style={{ perspective: 1200 }}
         >
-          {items.map((item, i) => (
-            <TiltCard key={i} item={item} index={i} />
-          ))}
-        </motion.div>
+          {items.map((item, i) => {
+            const Icon = ICONS[i];
+            const cfg = CARD_CONFIG[i] ?? CARD_CONFIG[0];
+
+            return (
+              <motion.div
+                key={i}
+              variants={revealCard}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ type: "spring", stiffness: 130, damping: 18, delay: i * 0.09 }}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <Card3D
+                  tilt={14}
+                  accent={`rgba(${cfg.rgb}, 0.25)`}
+                  liftZ={24}
+                  className="rounded-[22px] p-6 flex flex-col gap-4 cursor-default h-full"
+                  style={{
+                    background: `linear-gradient(145deg, rgba(${cfg.rgb},0.09) 0%, var(--bg-card) 100%)`,
+                    border: `1px solid rgba(${cfg.rgb},0.28)`,
+                    boxShadow: `0 12px 40px rgba(${cfg.rgb},0.1)`,
+                  }}
+                >
+                  {/* Icon — lifted on Z axis */}
+                  <motion.div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: `rgba(${cfg.rgb},0.14)`,
+                      border: `1px solid rgba(${cfg.rgb},0.32)`,
+                      boxShadow: `0 4px 20px rgba(${cfg.rgb},0.2)`,
+                    }}
+                    whileHover={{ rotate: 10, scale: 1.15 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 14 }}
+                  >
+                    <Icon size={21} color={cfg.color} />
+                  </motion.div>
+
+                  {/* Text — slightly lifted */}
+                  <div>
+                    <h3
+                      className="font-semibold mb-2"
+                      style={{ color: "var(--text-primary)" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p
+                      className="text-sm leading-relaxed"
+                      style={{ color: "var(--text-muted)" }}
+                    >
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  {/* Corner accent dot */}
+                  <motion.div
+                    className="absolute top-3 end-3 w-1.5 h-1.5 rounded-full pointer-events-none"
+                    style={{ background: cfg.color }}
+                    animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.3, 1] }}
+                    transition={{ repeat: Infinity, duration: 2.5 + i * 0.3 }}
+                  />
+                </Card3D>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

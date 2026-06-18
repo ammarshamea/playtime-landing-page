@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
-import BrandLogo from "@/components/ui/BrandLogo";
+import LogoMini3D from "@/components/ui/LogoMini3D";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import LanguageToggle from "./LanguageToggle";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -41,11 +41,8 @@ export default function Header() {
     >
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
         {/* Logo — start in RTL = right */}
-        <a href="#" className="flex items-center gap-2 shrink-0 group z-10">
-          <BrandLogo
-            className="h-9 w-9 sm:h-10 sm:w-10 object-contain transition-transform group-hover:scale-105"
-            style={{ filter: "drop-shadow(0 0 12px rgba(198,7,13,0.4))" }}
-          />
+        <a href="#" className="flex items-center gap-2 shrink-0 z-10">
+          <LogoMini3D size={40} />
           <span
             className="font-bold text-sm hidden sm:inline"
             style={{ color: "var(--text-primary)" }}

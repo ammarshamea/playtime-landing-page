@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import LanguageToggle from "./LanguageToggle";
+import LogoMini3D from "@/components/ui/LogoMini3D";
 import BrandLogo from "@/components/ui/BrandLogo";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/whatsapp";
 
@@ -25,10 +26,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex flex-col items-center md:items-start gap-2 text-center md:text-start">
             <div className="flex items-center gap-2.5">
-              <BrandLogo
-                className="h-9 w-9 object-contain"
-                style={{ filter: "drop-shadow(0 0 10px rgba(198,7,13,0.35))" }}
-              />
+              <LogoMini3D size={40} />
               <span className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>
                 Playtime Manager
               </span>
@@ -52,6 +50,15 @@ export default function Footer() {
             >
               {WHATSAPP_DISPLAY}
             </a>
+            <div
+              className="flex items-center gap-2 mt-3 pt-3 border-t w-full md:w-auto"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>
+                {t("developedBy")}
+              </span>
+              <BrandLogo variant="nivx" className="h-6 w-auto max-w-[72px] object-contain opacity-90" />
+            </div>
           </div>
 
           <nav className="flex flex-wrap justify-center gap-4">

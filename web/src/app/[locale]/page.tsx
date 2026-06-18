@@ -7,6 +7,7 @@ import UseCasesSection from "@/components/sections/UseCasesSection";
 import ProblemSection from "@/components/sections/ProblemSection";
 import BeforeAfterSection from "@/components/sections/BeforeAfterSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
+import ThreeDShowcaseSection from "@/components/sections/ThreeDShowcaseSection";
 import AppPreviewSection from "@/components/sections/AppPreviewSection";
 import HowItWorksSection from "@/components/sections/HowItWorksSection";
 import SecuritySection from "@/components/sections/SecuritySection";
@@ -29,6 +30,7 @@ export default function HomePage() {
       <ProblemSection />
       <BeforeAfterSection />
       <FeaturesSection />
+      <ThreeDShowcaseSection />
       <AppPreviewSection />
       <HowItWorksSection />
       <SecuritySection />

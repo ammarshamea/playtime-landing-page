@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@noble/ed25519": "^2.2.3",
+    "framer-motion": "^12.40.0",
     "lucide-react": "^0.471.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

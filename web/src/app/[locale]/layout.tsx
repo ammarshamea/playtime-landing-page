@@ -15,14 +15,14 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     icons: {
-      icon: "/playtime-logo.png",
-      apple: "/playtime-logo.png",
+      icon: "/logo.svg",
+      apple: "/logo.svg",
     },
     openGraph: {
       title: t("title"),
       description: t("description"),
       type: "website",
-      images: [{ url: "/playtime-logo.png", alt: "Playtime Manager" }],
+      images: [{ url: "/logo.svg", alt: "Playtime" }],
     },
   };
 }

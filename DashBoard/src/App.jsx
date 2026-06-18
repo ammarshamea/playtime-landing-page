@@ -1,50 +1,61 @@
 import React, { useState, useCallback, useEffect, lazy, Suspense } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './components/Sidebar.jsx';
 import Toast from './components/Toast.jsx';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 
-const Overview = lazy(() => import('./pages/Overview.jsx'));
+const Overview      = lazy(() => import('./pages/Overview.jsx'));
 const GenerateToken = lazy(() => import('./pages/GenerateToken.jsx'));
-const GenerateKeys = lazy(() => import('./pages/GenerateKeys.jsx'));
-const DecodeToken = lazy(() => import('./pages/DecodeToken.jsx'));
+const GenerateKeys  = lazy(() => import('./pages/GenerateKeys.jsx'));
+const DecodeToken   = lazy(() => import('./pages/DecodeToken.jsx'));
 
-const PAGES = {
-  overview: Overview,
-  generate: GenerateToken,
-  keys: GenerateKeys,
-  decode: DecodeToken,
-};
-
+const PAGES = { overview: Overview, generate: GenerateToken, keys: GenerateKeys, decode: DecodeToken };
 const PAGE_META = {
-  overview: { title: 'الرئيسية', desc: 'لوحة التحكم' },
-  generate: { title: 'توليد Token', desc: 'إنشاء كود تفعيل' },
-  keys: { title: 'المفاتيح', desc: 'Ed25519' },
-  decode: { title: 'قراءة Token', desc: 'فك وتحليل' },
+  overview: { title: 'الرئيسية',    desc: 'لوحة التحكم', badge: null },
+  generate: { title: 'توليد Token', desc: 'إنشاء كود تفعيل', badge: 'Ed25519' },
+  keys:     { title: 'المفاتيح',    desc: 'إدارة المفاتيح', badge: 'Ed25519' },
+  decode:   { title: 'قراءة Token', desc: 'فك وتحليل', badge: 'PT1' },
 };
 
 function PageLoader() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-[50vh] gap-4">
-      <div className="relative">
-        <div className="w-12 h-12 rounded-2xl border border-violet-500/30 animate-pulse-soft" />
-        <Loader2 className="w-6 h-6 text-violet-400 absolute inset-0 m-auto animate-spin" />
-      </div>
-      <p className="text-xs text-zinc-600 tracking-wide">جاري التحميل…</p>
+    <div className="flex-1 flex flex-col items-center justify-center min-h-[50vh] gap-5">
+      <motion.div
+        className="relative w-14 h-14"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+      >
+        <div
+          className="absolute inset-0 rounded-2xl"
+          style={{
+            background: 'linear-gradient(135deg, rgba(139,92,246,0.25), rgba(99,102,241,0.15))',
+            border: '1px solid rgba(139,92,246,0.3)',
+            boxShadow: '0 0 30px rgba(139,92,246,0.2)',
+          }}
+        />
+        <Loader2 className="absolute inset-0 m-auto w-6 h-6" style={{ color: '#c4b5fd' }} />
+      </motion.div>
+      <motion.p
+        className="text-xs font-mono"
+        style={{ color: 'var(--muted-dim)' }}
+        animate={{ opacity: [0.4, 0.9, 0.4] }}
+        transition={{ repeat: Infinity, duration: 1.6 }}
+      >
+        جاري التحميل…
+      </motion.p>
     </div>
   );
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('overview');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [toasts, setToasts] = useState([]);
+  const [currentPage, setCurrentPage]   = useState('overview');
+  const [sidebarOpen, setSidebarOpen]   = useState(false);
+  const [toasts, setToasts]             = useState([]);
 
   const showToast = useCallback((message, type = 'success') => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
+    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 4200);
   }, []);
 
   const removeToast = useCallback((id) => {
@@ -57,9 +68,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === 'Escape') setSidebarOpen(false);
-    };
+    const onKey = (e) => { if (e.key === 'Escape') setSidebarOpen(false); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
@@ -69,17 +78,21 @@ export default function App() {
 
   return (
     <div className="app-bg flex h-screen overflow-hidden">
-      <div className="orb orb-violet" aria-hidden />
-      <div className="orb orb-blue" aria-hidden />
+      {/* Ambient orbs */}
+      <div className="orb orb-violet animate-orb-drift" aria-hidden />
+      <div className="orb orb-blue animate-orb-drift" style={{ animationDelay: '-6s' }} aria-hidden />
+      <div className="orb orb-pink animate-orb-drift" style={{ animationDelay: '-3s' }} aria-hidden />
 
-      {sidebarOpen && (
-        <button
-          type="button"
-          className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden animate-fade-in"
-          onClick={() => setSidebarOpen(false)}
-          aria-label="إغلاق القائمة"
-        />
-      )}
+      {/* Subtle grid overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.018]"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+        }}
+        aria-hidden
+      />
 
       <Sidebar
         currentPage={currentPage}
@@ -88,49 +101,133 @@ export default function App() {
         onClose={() => setSidebarOpen(false)}
       />
 
+      {/* Main content area */}
       <div className="relative z-10 flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="flex-shrink-0 h-16 border-b border-white/[0.06] bg-zinc-950/70 backdrop-blur-2xl flex items-center px-5 lg:px-8 gap-4">
-          <button
+        {/* Header */}
+        <motion.header
+          className="flex-shrink-0 h-16 flex items-center px-5 lg:px-8 gap-4"
+          style={{
+            background: 'rgba(5,5,10,0.75)',
+            backdropFilter: 'blur(32px)',
+            borderBottom: '1px solid rgba(255,255,255,0.05)',
+          }}
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Mobile menu toggle */}
+          <motion.button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2.5 rounded-xl border border-white/[0.06] bg-zinc-900/80 text-zinc-400 hover:text-zinc-100 hover:border-white/10 transition-all"
+            className="lg:hidden p-2 rounded-xl text-zinc-400 hover:text-zinc-100 transition-colors"
+            style={{ border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.03)' }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             aria-label="فتح القائمة"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 7h16M4 12h16M4 17h16" />
             </svg>
-          </button>
+          </motion.button>
 
-          <div className="flex-1 min-w-0">
-            <h1 className="text-base font-semibold text-zinc-100 truncate">{meta.title}</h1>
-            <p className="text-[11px] text-zinc-600 truncate">{meta.desc}</p>
+          {/* Page title */}
+          <div className="flex-1 min-w-0 flex items-center gap-3">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentPage}
+                className="flex flex-col"
+                initial={{ opacity: 0, y: 6, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -6, filter: 'blur(4px)' }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h1 className="text-base font-semibold text-zinc-100 leading-tight truncate">
+                  {meta.title}
+                </h1>
+                <p className="text-[11px] truncate" style={{ color: 'var(--muted-dim)' }}>
+                  {meta.desc}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            {meta.badge && (
+              <motion.span
+                className="badge-violet hidden sm:inline-flex"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1, type: 'spring', stiffness: 400, damping: 20 }}
+              >
+                {meta.badge}
+              </motion.span>
+            )}
           </div>
 
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.06] bg-zinc-900/50">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-soft" />
-            <span className="text-[10px] font-medium text-zinc-500 font-mono">PT1 · محلي</span>
-          </div>
-        </header>
+          {/* Status pill */}
+          <motion.div
+            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full"
+            style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.06)',
+            }}
+            whileHover={{ borderColor: 'rgba(139,92,246,0.25)' }}
+          >
+            <motion.span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: 'var(--success)' }}
+              animate={{ opacity: [1, 0.4, 1] }}
+              transition={{ repeat: Infinity, duration: 2.5 }}
+            />
+            <span className="text-[10px] font-medium font-mono" style={{ color: 'var(--muted)' }}>
+              PT1 · محلي
+            </span>
+          </motion.div>
 
+          {/* Sparkle icon */}
+          <motion.div
+            className="hidden md:flex w-8 h-8 items-center justify-center rounded-xl flex-shrink-0"
+            style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.18)' }}
+            animate={{ boxShadow: ['0 0 0 rgba(139,92,246,0)', '0 0 16px rgba(139,92,246,0.25)', '0 0 0 rgba(139,92,246,0)'] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+          >
+            <Sparkles size={14} style={{ color: '#a78bfa' }} />
+          </motion.div>
+        </motion.header>
+
+        {/* Page content */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          <Suspense fallback={<PageLoader />}>
-            <div key={currentPage} className="animate-page-enter min-h-full">
-              <PageComponent onToast={showToast} onNavigate={navigate} />
-            </div>
-          </Suspense>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              className="min-h-full"
+              initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Suspense fallback={<PageLoader />}>
+                <PageComponent onToast={showToast} onNavigate={navigate} />
+              </Suspense>
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
-      <div className="fixed bottom-6 left-6 z-50 flex flex-col gap-2.5 pointer-events-none">
-        {toasts.map((toast, i) => (
-          <div
-            key={toast.id}
-            className="pointer-events-auto"
-            style={{ animationDelay: `${i * 60}ms` }}
-          >
-            <Toast message={toast.message} type={toast.type} onClose={() => removeToast(toast.id)} />
-          </div>
-        ))}
+      {/* Toast stack */}
+      <div className="fixed bottom-6 end-6 z-50 flex flex-col gap-2.5 pointer-events-none">
+        <AnimatePresence>
+          {toasts.map((toast) => (
+            <motion.div
+              key={toast.id}
+              className="pointer-events-auto"
+              initial={{ opacity: 0, x: 40, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 40, scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            >
+              <Toast message={toast.message} type={toast.type} onClose={() => removeToast(toast.id)} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

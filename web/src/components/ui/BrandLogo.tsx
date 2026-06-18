@@ -1,15 +1,27 @@
-import { LOGO_ALT, LOGO_SRC } from "@/lib/brand";
+import { BRAND_LOGOS, type BrandLogoVariant } from "@/lib/brand";
 
 type BrandLogoProps = {
+  variant?: BrandLogoVariant;
   className?: string;
   alt?: string;
   style?: React.CSSProperties;
 };
 
 export default function BrandLogo({
+  variant = "playtime",
   className = "h-8 w-8 object-contain",
-  alt = LOGO_ALT,
+  alt,
   style,
 }: BrandLogoProps) {
-  return <img src={LOGO_SRC} alt={alt} className={className} style={style} draggable={false} />;
+  const brand = BRAND_LOGOS[variant];
+
+  return (
+    <img
+      src={brand.src}
+      alt={alt ?? brand.alt}
+      className={className}
+      style={style}
+      draggable={false}
+    />
+  );
 }
