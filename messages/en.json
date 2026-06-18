@@ -280,7 +280,7 @@
     "title": "Choose the subscription term that fits your lounge",
     "subtitle": "All plans include sessions, devices, orders, reports, and offline use on Android.",
     "mostSavings": "Best value",
-    // "paymentNote": "Base prices are in USD. Payment in Syrian pounds is available at the exchange rate when you subscribe.",
+    "paymentNote": "Base prices are in USD. Payment in Syrian pounds is available at the exchange rate when you subscribe.",
     "trustNote": "Not sure which plan fits? Contact us before paying.",
     "planContactPrefill": "Hello, I would like to subscribe to the {plan} plan for my gaming lounge.",
     "currency": {
@@ -458,6 +458,7 @@
   },
   "footer": {
     "tagline": "Playtime Manager — manage gaming lounges, sessions, orders, and reports offline.",
+    "privacyShort": "We use your phone number only to respond to your request or inquiry. We do not share it with third parties.",
     "syriaBadge": "Built for gaming lounges in Syria",
     "links": {
       "features": "Features",
