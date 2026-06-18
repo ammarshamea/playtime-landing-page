@@ -1,0 +1,13 @@
+# Secrets & distribution
+LICENSE_KEYS.md
+keys.env
+*.apk
+*.aab
+
+# Build output
+dist/
+node_modules/
+
+# Temp
+_key_search.txt
+_cands.txt

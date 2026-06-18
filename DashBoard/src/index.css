@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #09090b;
+    --bg-elevated: #111113;
+    --surface: rgba(24, 24, 27, 0.65);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --accent: #8b5cf6;
+    --accent-hover: #a78bfa;
+    --accent-glow: rgba(139, 92, 246, 0.35);
+    --text: #fafafa;
+    --muted: #a1a1aa;
+    --success: #34d399;
+    --error: #f87171;
+    --warning: #fbbf24;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-zinc-50 antialiased;
+    font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-700/80 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-600;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.35);
+    color: #fff;
+  }
+
+  input[type='datetime-local']::-webkit-calendar-picker-indicator {
+    filter: invert(0.75);
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  /* ── Ambient background ── */
+  .app-bg {
+    @apply relative min-h-screen;
+    background: var(--bg);
+  }
+
+  .app-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.12), transparent),
+      radial-gradient(ellipse 40% 30% at 100% 50%, rgba(59, 130, 246, 0.06), transparent),
+      radial-gradient(ellipse 35% 25% at 0% 80%, rgba(139, 92, 246, 0.05), transparent);
+  }
+
+  .orb {
+    @apply pointer-events-none fixed rounded-full blur-3xl animate-float;
+    z-index: 0;
+  }
+
+  .orb-violet {
+    width: 420px;
+    height: 420px;
+    top: -120px;
+    right: -80px;
+    background: rgba(139, 92, 246, 0.15);
+    animation-delay: 0s;
+  }
+
+  .orb-blue {
+    width: 320px;
+    height: 320px;
+    bottom: -60px;
+    left: -40px;
+    background: rgba(59, 130, 246, 0.1);
+    animation-delay: -4s;
+  }
+
+  /* ── Layout ── */
+  .page-shell {
+    @apply relative z-10 min-h-full w-full max-w-6xl mx-auto px-5 py-8 sm:px-8 sm:py-10 lg:px-10;
+  }
+
+  .stagger-children > * {
+    @apply animate-fade-up;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.08s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.12s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.16s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.24s; }
+  .stagger-children > *:nth-child(7) { animation-delay: 0.28s; }
+  .stagger-children > *:nth-child(8) { animation-delay: 0.32s; }
+
+  /* ── Surfaces ── */
+  .surface {
+    @apply rounded-2xl border backdrop-blur-xl transition-all duration-300 ease-spring;
+    background: var(--surface);
+    border-color: var(--border);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 32px -12px rgba(0, 0, 0, 0.45);
+  }
+
+  .surface-interactive {
+    @apply surface hover:border-white/[0.12] hover:shadow-card-hover;
+  }
+
+  .surface-interactive:hover {
+    transform: translateY(-2px);
+  }
+
+  /* legacy alias */
+  .glass-card {
+    @apply surface;
+  }
+
+  .page-container {
+    @apply page-shell;
+  }
+
+  /* ── Form controls ── */
+  .label-text {
+    @apply block text-sm font-medium text-zinc-400 mb-2;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl text-sm text-zinc-100
+      placeholder-zinc-600 transition-all duration-200 ease-spring;
+    background: rgba(9, 9, 11, 0.6);
+    border: 1px solid var(--border);
+  }
+
+  .input-field:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .input-field:focus {
+    @apply outline-none ring-2;
+    border-color: rgba(139, 92, 246, 0.5);
+    ring-color: rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.2);
+  }
+
+  .input-field-error {
+    border-color: rgba(248, 113, 113, 0.5) !important;
+    ring-color: rgba(248, 113, 113, 0.15) !important;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold
+      transition-all duration-200 ease-spring disabled:opacity-45 disabled:cursor-not-allowed
+      disabled:transform-none active:scale-[0.98];
+  }
+
+  .btn-primary {
+    @apply btn px-6 py-3 text-white;
+    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    box-shadow: 0 4px 20px -4px var(--accent-glow), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 8px 28px -4px var(--accent-glow), 0 1px 0 rgba(255, 255, 255, 0.15) inset;
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+
+  .btn-secondary {
+    @apply btn px-5 py-3 text-zinc-300;
+    background: rgba(39, 39, 42, 0.6);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    @apply bg-zinc-800/80 text-zinc-100;
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    @apply btn px-4 py-2 text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.04];
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-lg text-[10px] font-semibold uppercase tracking-wide;
+  }
+
+  .badge-violet {
+    @apply badge bg-violet-500/15 text-violet-300 border border-violet-500/25;
+  }
+
+  .badge-success {
+    @apply badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+  }
+
+  .badge-warning {
+    @apply badge bg-amber-500/15 text-amber-400 border border-amber-500/25;
+  }
+
+  /* ── Code blocks ── */
+  .code-block {
+    @apply font-mono text-xs leading-relaxed rounded-xl px-4 py-3 overflow-x-auto;
+    background: rgba(9, 9, 11, 0.85);
+    border: 1px solid var(--border);
+    color: #e4e4e7;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-l from-violet-400 via-violet-300 to-indigo-400 bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}

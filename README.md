@@ -1,36 +1,66 @@
-# Web (Next.js)
+# PlayJaramanaa
 
-Marketing / landing site for PlayJaramanaa with Arabic/English i18n and in-site contact widget.
+منصة إدارة صالات الألعاب: تطبيق جوال، موقع تعريفي، API، ولوحة تراخيص.
 
-## Setup
+## هيكل المشروع
+
+```
+PlayJaramanaa/
+├── playtime/          # تطبيق Flutter (الجوال)
+├── web/               # موقع Next.js (الصفحة التعريفية + ودجت التواصل)
+├── backend/           # Laravel API (رسائل الزبائن + واتساب)
+├── DashBoard/         # لوحة إصدار تراخيص (Vite + React)
+├── infra/             # Docker — Evolution API + Postgres + Redis
+├── EvolutionAPI/      # حزمة بايثون: QR + إرسال لأي رقم (run.py)
+├── tools/             # أدوات تطوير قديمة (انظر EvolutionAPI/)
+└── docs/              # توثيق مشترك
+```
+
+> **ملاحظة:** مجلد `landingpage/` قديم و**فارغ** (حُذفت النسخة المكررة). استخدم **`web/`** فقط لتشغيل الموقع.
+
+## التشغيل السريع (تطوير)
+
+| التطبيق | الأمر | الرابط |
+|---------|--------|--------|
+| API | `cd backend && php artisan serve --port=8001` | http://127.0.0.1:8001 |
+| الموقع | `cd web && npm install && npm run dev` | http://localhost:3000 |
+| Evolution | من **جذر المشروع**: `./evolution-up.bat` أو `docker compose -f infra/docker-compose.evolution.yml up -d` | http://localhost:8080/manager |
+| الجوال | `cd playtime && flutter run` | — |
+| لوحة التراخيص | `cd DashBoard && npm install && npm run dev` | حسب Vite |
+
+## متغيرات البيئة المهمة
+
+| الملف | المتغير |
+|-------|---------|
+| `web/.env.local` | `NEXT_PUBLIC_API_URL=http://localhost:8001` |
+| `backend/.env` | `EVOLUTION_*`, `CORS_ALLOWED_ORIGINS` |
+
+تفاصيل: [docs/ENV.md](docs/ENV.md)
+
+## رد آلي واتساب (بايثون)
 
 ```bash
-cd web
-npm install
-cp .env.local.example .env.local   # if missing, create with NEXT_PUBLIC_API_URL
+cd EvolutionAPI
+pip install -r requirements.txt
+copy .env.example .env
+python run.py
 ```
 
-`.env.local`:
+شرح كامل: [EvolutionAPI/README.md](EvolutionAPI/README.md)
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8001
-```
+## التوثيق
 
-## Run
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — كيف تتصل التطبيقات
+- [docs/WHATSAPP_EVOLUTION.md](docs/WHATSAPP_EVOLUTION.md) — ربط واتساب والإشعارات
+- [backend/README.md](backend/README.md) — API
+- [web/README.md](web/README.md) — الموقع
+- [playtime/README.md](playtime/README.md) — التطبيق
 
-```bash
-npm run dev
-```
-
-http://localhost:3000
-
-## Structure
+## تدفق رسالة الزبون
 
 ```
-src/app/[locale]/     # Pages (ar / en)
-src/components/       # UI + contact widget
-messages/             # i18n JSON
-docs/                 # Product notes (e.g. V2-ROADMAP)
+زبون (web) → POST /api/contact-messages (backend) → قاعدة البيانات
+                                              → Evolution API → واتساب رقم الشغل
 ```
 
-API must be running: see [../backend/README.md](../backend/README.md).
+رقم الإرسال: instance واتساب (مثلاً السعودي). رقم الاستلام: `EVOLUTION_NOTIFY_NUMBER` (مثلاً `963981175877`).
